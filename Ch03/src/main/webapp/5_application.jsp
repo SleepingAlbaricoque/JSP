@@ -23,7 +23,7 @@
 		
 		<h4>application 파라미터 목록</h4>
 		<%
-			Enumeration<String> initParams = application.getInitParameterNames();
+			Enumeration<String> initParams = application.getInitParameterNames(); // WEB-INF 폴더 > web.xml 파일 참조
 		
 			while(initParams.hasMoreElements()){
 				String paramName = initParams.nextElement();
