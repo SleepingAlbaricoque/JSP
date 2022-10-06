@@ -10,7 +10,7 @@
 			내용 : JSP response 내장객체 실습하기
 			
 			response 내장객체
-			 - client에서 server로 요청 과를 응답해주는 객체
+			 - client에서 server로 요청 결과를 응답해주는 객체
 			 - server에서 client로 전송되는 객체
 			 
 			redirect
