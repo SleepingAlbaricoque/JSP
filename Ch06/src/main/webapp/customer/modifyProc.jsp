@@ -13,7 +13,7 @@
 	
 	try{
 		Connection conn = DBCP.getDBCP("dbcp_java1db_shop");
-		String sql = "update `customer` set `name`=?. `hp`=?, `addr`=?, `rdate`=? where `custId` =?";
+		String sql = "update `customer` set `name`=?, `hp`=?, `addr`=?, `rdate`=? where `custId` =?";
 		PreparedStatement psmt = conn.prepareStatement(sql);
 		psmt.setString(1, name);
 		psmt.setString(2, hp);
