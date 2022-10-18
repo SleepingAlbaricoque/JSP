@@ -42,7 +42,7 @@
                     <td>
                         <p>공백 없이 한글, 영문, 숫자 입력</p>
                         <input type="text" name="nick" placeholder="별명 입력">
-                        <button type="button"><img src="JBoard1/img/chk_id.gif" alt="중복확인"></button>
+                        <button type="button"><img src="/JBoard1/img/chk_id.gif" alt="중복확인"></button>
                         <span class="resultNick"></span>
                     </td>
                 </tr>
