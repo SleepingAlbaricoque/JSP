@@ -61,13 +61,6 @@
 						}
 					});
 				});
-				
-				// modify user
-				$(document).on('click', '.modify', function(e){
-					e.preventDefault();
-					
-					// 유저가 선택한 데이터 불러오기
-				});
 			});
 		</script>
 	</head>
