@@ -1,16 +1,18 @@
-package beans;
+package kr.co.jboard1.bean;
 
-public class userBean {
+public class UserBean {
 	private String uid;
 	private String pass;
 	private String name;
 	private String nick;
 	private String email;
 	private String hp;
+	private int grade;
 	private String zip;
 	private String addr1;
 	private String addr2;
-	
+	private String regip;
+	private String rdate;
 	public String getUid() {
 		return uid;
 	}
@@ -47,6 +49,12 @@ public class userBean {
 	public void setHp(String hp) {
 		this.hp = hp;
 	}
+	public int getGrade() {
+		return grade;
+	}
+	public void setGrade(int grade) {
+		this.grade = grade;
+	}
 	public String getZip() {
 		return zip;
 	}
@@ -65,6 +73,16 @@ public class userBean {
 	public void setAddr2(String addr2) {
 		this.addr2 = addr2;
 	}
-	
-	
+	public String getRegip() {
+		return regip;
+	}
+	public void setRegip(String regip) {
+		this.regip = regip;
+	}
+	public String getRdate() {
+		return rdate;
+	}
+	public void setRdate(String rdate) {
+		this.rdate = rdate;
+	}
 }

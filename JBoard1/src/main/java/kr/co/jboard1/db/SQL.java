@@ -1,0 +1,24 @@
+package kr.co.jboard1.db;
+
+public class SQL {
+	
+	// USER
+	public static final String INSERT_USER = "insert into `board_user` set " // registerProc
+											+"`uid`=?,"
+											+"`pass`=SHA2(?, 256),"
+											+"`name`=?,"
+											+"`nick`=?,"
+											+"`email`=?,"
+											+"`hp`=?,"
+											+"`zip`=?,"
+											+"`addr1`=?,"
+											+"`addr2`=?,"
+											+"`regip`=?,"
+											+"`rdate`=NOW()";
+	public static final String SELECT_USER = "select * from `board_user` where `uid`=? and `pass`=SHA2(?,256)"; // loginProc
+	public static final String SELECT_COUNT_UID = "select count(`uid`) from `board_user` where `uid`=?"; // checkUid
+	public static final String SELECT_COUNT_NICK = "select count(`nick`) from `board_user` where `nick`=?"; // checkNick
+	public static final String SELECT_TERMS = "select * from `board_terms`"; // terms
+	
+	// BOARD
+}
