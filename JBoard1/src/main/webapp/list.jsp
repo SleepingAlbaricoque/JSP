@@ -27,6 +27,6 @@
                 <a href="#" class="next">다음</a>
             </div>
 
-            <a href="/JBoard1/write.html" class="btnWrite">글쓰기</a>
+            <a href="/JBoard1/write.jsp" class="btnWrite">글쓰기</a>
         </main>
 <%@ include file="./_footer.jsp" %>
