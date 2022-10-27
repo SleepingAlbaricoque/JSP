@@ -28,4 +28,9 @@ public class SQL {
 			+ "`oriName`=?,"
 			+ "`rdate`=NOW()";
 	public static final String SELECT_MAX_NO = "select max(`no`) from `board_article`";
+	public static final String SELECT_COUNT_TOTAL = "SELECT COUNT(`no`) FROM `board_article`";
+	public static final String SELECT_ARTICLES = "SELECT a.*, b.`nick` FROM `board_article` AS a "
+			+ "JOIN `board_user` AS b ON a.uid = b.uid "
+			+ "order by `no` DESC "
+			+ "limit ?, 10";
 }
