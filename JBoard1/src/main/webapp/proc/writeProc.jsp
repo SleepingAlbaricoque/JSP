@@ -1,3 +1,5 @@
+<%@page import="kr.co.jboard1.bean.ArticleBean"%>
+<%@page import="kr.co.jboard1.dao.ArticleDAO"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.io.File"%>
@@ -28,38 +30,15 @@
 	// System.out.println("fname: " + fname); system.out이라 콘솔로 출력, 필요없는 코드들은 주석 처리해서 자원 낭비 방지
 	// System.out.println("savePath: " + savePath);
 	
-	int parent = 0;
+	ArticleBean article = new ArticleBean();
+	article.setTitle(title);
+	article.setContent(content);
+	article.setUid(uid);
+	article.setFname(fname);
+	article.setRegip(regip);
 	
-	try{
-		Connection conn = DBCP.getConnection(); // connection은 정보 객체(객체는 곧 정보 덩어리) -> 이를 바탕으로 쿼리문 객체 생성
-		conn.setAutoCommit(false);
-		
-		Statement stmt = conn.createStatement();
-		PreparedStatement psmt = conn.prepareStatement(SQL.INSERT_ARTICLE);
-		
-		psmt.setString(1, title);
-		psmt.setString(2, content);
-		psmt.setInt(3, fname == null? 0 : 1);
-		psmt.setString(4, uid);
-		psmt.setString(5, regip);
-		
-		psmt.executeUpdate(); // INSERT
-		ResultSet rs =stmt.executeQuery(SQL.SELECT_MAX_NO);
-		
-		conn.commit(); // 위에서 auto commit을 막고 여기서 psmt, stmt 한 번에 동시에 실행 => 내가 올리는 동안 다른 사용자가 글 올려서 max no가 다른 사용자 글 번호가 되는 상황 방지
-		
-		if(rs.next()){
-			parent = rs.getInt(1);
-		}
-		
-		rs.close();
-		stmt.close();
-		psmt.close();
-		conn.close();
-		
-	}catch(Exception e){
-		e.printStackTrace();
-	}
+	ArticleDAO dao = ArticleDAO.getInstance();
+	int parent = dao.insertArticle(article);
 	
 	// 첨부한 파일 처리
 	if(fname != null){
@@ -70,28 +49,15 @@
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss_");
 		String now = sdf.format(new Date());
-		String newFname = now + uid + ext; // ex. 20221026111425_tnqls0421.txt
+		String newName = now + uid + ext; // ex. 20221026111425_tnqls0421.txt
 		
 		File oriFile = new File(savePath + "/" + fname); // 스트림; 업로드 된 파일(oriFile)을 파일 객체화
-		File newFile = new File(savePath + "/" + newFname);
+		File newFile = new File(savePath + "/" + newName);
 		
 		oriFile.renameTo(newFile);
 		
 		// 파일 테이블에 파일 정보 저장
-		try{
-			Connection conn = DBCP.getConnection();
-			PreparedStatement psmt = conn.prepareStatement(SQL.INSERT_FILE);
-			psmt.setInt(1, parent);
-			psmt.setString(2, newFname);
-			psmt.setString(3, fname);
-			psmt.executeUpdate();
-			
-			psmt.close();
-			conn.close();
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+		dao.insertFile(parent, newName, fname);
 	}
 	
 	response.sendRedirect("/JBoard1/list.jsp");

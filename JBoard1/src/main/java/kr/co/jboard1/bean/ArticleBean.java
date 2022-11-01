@@ -15,6 +15,7 @@ public class ArticleBean {
 	
 	// 조인 이후 추가 필드
 	private String nick;
+	private String fname;
 	
 	private int fno;
 	private String oriName;
@@ -31,6 +32,9 @@ public class ArticleBean {
 	}
 	public void setParent(int parent) {
 		this.parent = parent;
+	}
+	public void setParent(String parent) { // method overload
+		this.parent = Integer.parseInt(parent);
 	}
 	public int getComment() {
 		return comment;
@@ -109,5 +113,11 @@ public class ArticleBean {
 	}
 	public void setDownload(int download) {
 		this.download = download;
+	}
+	public String getFname() {
+		return fname;
+	}
+	public void setFname(String fname) {
+		this.fname = fname;
 	}
 }

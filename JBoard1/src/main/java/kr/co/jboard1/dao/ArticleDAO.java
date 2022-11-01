@@ -21,7 +21,103 @@ public class ArticleDAO { // 싱글턴 객체
 	private ArticleDAO() {}
 	
 	// 기본 CRUD(insert, select, update, delete) 메서드
-	public void insertArticle() {}
+	public int insertArticle(ArticleBean article) { // parent값 return해야함
+		int parent = 0;
+		
+		try{
+			Connection conn = DBCP.getConnection(); // connection은 정보 객체(객체는 곧 정보 덩어리) -> 이를 바탕으로 쿼리문 객체 생성
+			conn.setAutoCommit(false);
+			
+			Statement stmt = conn.createStatement();
+			PreparedStatement psmt = conn.prepareStatement(SQL.INSERT_ARTICLE);
+			
+			psmt.setString(1, article.getTitle());
+			psmt.setString(2, article.getContent());
+			psmt.setInt(3, article.getFname() == null? 0 : 1);
+			psmt.setString(4, article.getUid());
+			psmt.setString(5, article.getRegip());
+			
+			psmt.executeUpdate(); // INSERT
+			ResultSet rs =stmt.executeQuery(SQL.SELECT_MAX_NO);
+			
+			conn.commit(); // 위에서 auto commit을 막고 여기서 psmt, stmt 한 번에 동시에 실행 => 내가 올리는 동안 다른 사용자가 글 올려서 max no가 다른 사용자 글 번호가 되는 상황 방지
+			
+			if(rs.next()){
+				parent = rs.getInt(1);
+			}
+			
+			rs.close();
+			stmt.close();
+			psmt.close();
+			conn.close();
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return parent;
+	}
+	
+	public void insertFile(int parent, String newName, String fname) {
+		try{
+			Connection conn = DBCP.getConnection();
+			PreparedStatement psmt = conn.prepareStatement(SQL.INSERT_FILE);
+			psmt.setInt(1, parent);
+			psmt.setString(2, newName);
+			psmt.setString(3, fname);
+			psmt.executeUpdate();
+			
+			psmt.close();
+			conn.close();
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public ArticleBean insertComment(ArticleBean comment) {
+		ArticleBean article = null;
+		
+		try{
+			Connection conn = DBCP.getConnection();
+			
+			// 트랜잭션 시작
+			conn.setAutoCommit(false);
+			
+			PreparedStatement psmt = conn.prepareStatement(SQL.INSERT_COMMENT);
+			Statement stmt = conn.createStatement();
+			
+			psmt.setInt(1, comment.getParent());
+			psmt.setString(2, comment.getContent());
+			psmt.setString(3, comment.getUid());
+			psmt.setString(4, comment.getRegip());
+			psmt.executeUpdate();
+			ResultSet rs = stmt.executeQuery(SQL.SELECT_COMMENT_LATEST);
+			
+			// 작업 확정
+			conn.commit();
+			
+			if(rs.next()) {
+				article = new ArticleBean();
+				article.setNo(rs.getInt(1));
+				article.setParent(rs.getInt(2));
+				article.setContent(rs.getString(6));
+				article.setRdate(rs.getString(11).substring(2, 10));
+				article.setNick(rs.getString(12));
+			}
+			
+			rs.close();
+			stmt.close();
+			psmt.close();
+			conn.close();
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return article;
+	}
+	
 	public ArticleBean selectArticle(String no) {
 		ArticleBean ab = null;
 		try{
@@ -127,6 +223,44 @@ public class ArticleDAO { // 싱글턴 객체
 		
 		return fb;
 
+	}
+	
+	public List<ArticleBean> selectComments(String parent) {
+		List<ArticleBean> comments = new ArrayList<>();
+		ArticleBean comment = null;
+		
+		try{
+			Connection conn = DBCP.getConnection();
+			PreparedStatement psmt = conn.prepareStatement(SQL.SELECT_COMMENTS);
+			psmt.setString(1, parent);
+			ResultSet rs = psmt.executeQuery();
+			
+			while(rs.next()){
+				comment = new ArticleBean();
+				comment.setNo(rs.getInt(1));
+				comment.setParent(rs.getInt(2));
+				comment.setComment(rs.getInt(3));
+				comment.setCate(rs.getString(4));
+				comment.setTitle(rs.getString(5));
+				comment.setContent(rs.getString(6));
+				comment.setFile(rs.getInt(7));
+				comment.setHit(rs.getInt(8));
+				comment.setUid(rs.getString(9));
+				comment.setRegip(rs.getString(10));
+				comment.setRdate(rs.getString(11).substring(2,10)); // 날짜 포맷 맞추기 위해 substring(년도 두 자리, 월, 일 표시)
+				comment.setNick(rs.getString(12));
+				comments.add(comment);
+			}
+			
+			rs.close();
+			psmt.close();
+			conn.close();
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return comments;
 	}
 	
 	public void updateArticle() {}

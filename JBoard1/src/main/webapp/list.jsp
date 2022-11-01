@@ -24,6 +24,7 @@
 	
 	if(pg != null) // 로그인해서 들어오면 바로 1페이지 보이는데 이때 login.jsp에서 넘어온 거라 pg값을 받지 못함 -> pg값은 null
 		currentPage = Integer.parseInt(pg);
+	else
 	
 	start = (currentPage - 1)*10;
 	currentPageGroup = (int) Math.ceil(currentPage /10.0);
@@ -65,7 +66,7 @@
                 <% for(ArticleBean article: articles){ %>
                 <tr>
                     <td><%= pageStartNum-- %></td>
-                    <td><a href="/JBoard1/view.jsp?no=<%= article.getNo()%>"><%= article.getTitle() %>[<%= article.getComment() %>]</a></td>
+                    <td><a href="/JBoard1/view.jsp?no=<%= article.getNo()%>&pg=<%= currentPage %>"><%= article.getTitle() %>[<%= article.getComment() %>]</a></td>
                     <td><%= article.getNick() %></td>
                     <td><%= article.getRdate().substring(2, 10) %></td>
                     <td><%= article.getHit() %></td>
