@@ -28,12 +28,85 @@
 <script>
 	$(document).ready(function(){
 		
+		// 댓글 수정하기
+		
+		$(document).on('click', '.modify', function(e){
+			e.preventDefault(); // 이벤트 자동 실행 방지
+			
+			let txt = $(this).text();
+			let p = $(this).parent().prev(); // 여기서 this는 클릭된 modify의 a 태그 지칭
+			// prev(): Get the immediately preceding sibling of each element in the set of matched elements. 
+			// If a selector is provided, it retrieves the previous sibling only if it matches that selector
+			
+			if(txt == '수정'){
+				// 수정모드
+				$(this).text('수정완료');
+				p.attr('contentEditable', true); // p의 속성 contentEditable을 true로
+				p.focus(); // p에 커서 위치시키기
+			}else{
+				// 수정 완료
+				$(this).text('수정');
+				p.attr('contentEditable', false);
+				
+				let content = p.text();
+				let no = $(this).attr('data-no');
+				
+				let jsonData = {
+						"content": content,
+						"no" : no
+				};
+				
+				// 수정한 댓글 데이터 proc 페이지에 넘겨서 거기서 DB로 insert할 수 있도록
+				$.ajax({
+					url: '/JBoard1/proc/commentModifyProc.jsp',
+					type: 'POST',
+					data: jsonData,
+					dataType: 'json',
+					success: function(data){
+						
+						if(data.result >0){ // data.result == 1보다 >0이 나음 <-result값이 2가 되는 경우도 있다고 함
+							alert('댓글이 수정되었습니다.');
+						}
+					}
+				});
+			}
+		});
+		
+		// 댓글 삭제하기
+		$(document).on('click', '.remove', function(e){
+			e.preventDefault();
+			
+			let tag = $(this);
+			let result = confirm('정말 삭제 하시겠습니까?');
+			
+			if(result){
+				
+				let no = $(this).attr('data-no');
+				
+				$.ajax({
+					url: '/JBoard1/proc/commentDeleteProc.jsp?no='+no,
+					type: 'GET', // 넘기는 값 하나라 jsonData 만들지 않고 get으로 해서 주소로 바로 넘겨주기
+					dataType: 'json',
+					success: function(data){
+						alert('댓글이 삭제되었습니다.');
+						
+						// 화면 삭제
+						// 여기서는 this 선택자 사용 불가 <- ajax success function과 $(document).on()의 스코프 다름
+						tag.parent().parent().hide();
+						// tag.closest('article').hide();도 가능, closest는 조상 태그 중에 argument와 일치하는, this에서 가장 가까운 태그 선택
+					}
+				});
+			}
+		});
+		
+		// 댓글쓰기
 		$('.commentForm > form').submit(function(){
 			
 			let pg = $(this).children('input[name=pg]').val();
 			let parent = $(this).children('input[name=parent]').val();
 			let uid = $(this).children('input[name=uid]').val();
-			let content = $(this).children('textarea[name=content]').val();
+			let textarea = $(this).children('textarea[name=content]');
+			let content = textarea.val();
 			
 			let jsonData = {
 				"pg":pg,	
@@ -58,8 +131,8 @@
 					    article += "<span class='date'>"+data.date+"</span>";
 					    article += "<p class='content'>"+data.content+"</p>";
 					    article += "<div>";
-					    article += "<a href='#' class='remove'>삭제</a>";
-					    article += "<a href='#' class='modify'>수정</a>";
+					    article += "<a href='#' class='remove' data-no='"+data.no+"'>삭제</a>";
+					    article += "<a href='#' class='modify' data-no='"+data.no+"'>수정</a>";
 					    article += "</div>";
 					    article += "</article>";
 					
@@ -109,8 +182,8 @@
                     <span class="date"><%= comment.getRdate() %></span>
                     <p class="content"><%= comment.getContent() %></p>
                     <div>
-                        <a href="#" class="remove">삭제</a>
-                        <a href="/JBoard1/modify.html" class="view">수정</a>
+                        <a href="#" class="remove" data-no="<%= comment.getNo() %>">삭제</a>
+                        <a href="#" class="modify" data-no="<%= comment.getNo() %>">수정</a>
                     </div>
                 </article>
                 <% } %>

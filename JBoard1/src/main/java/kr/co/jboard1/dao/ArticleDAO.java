@@ -319,4 +319,41 @@ public class ArticleDAO { // 싱글턴 객체
 			e.printStackTrace();
 		}
 	}
+	
+	public int updateComment(String content, String no) {
+		int result = 0;
+		
+		try{
+			Connection conn = DBCP.getConnection();
+			PreparedStatement psmt = conn.prepareStatement(SQL.UPDATE_COMMENT);
+			psmt.setString(1, content);
+			psmt.setString(2, no);
+			result = psmt.executeUpdate();
+			
+			psmt.close();
+			conn.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return result; // 잘 작동했는 지 체크하기위해
+	}
+	
+	public int deleteComment(String no) {
+		int result = 0;
+		
+		try {
+			Connection conn = DBCP.getConnection();
+			PreparedStatement psmt = conn.prepareStatement(SQL.DELETE_COMMENT);
+			psmt.setString(1, no);
+			result = psmt.executeUpdate();
+			
+			psmt.close();
+			conn.close();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }
