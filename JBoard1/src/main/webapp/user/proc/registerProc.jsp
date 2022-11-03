@@ -1,3 +1,4 @@
+<%@page import="kr.co.jboard1.dao.UserDAO"%>
 <%@page import="kr.co.jboard1.db.SQL"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="kr.co.jboard1.db.DBCP"%>
@@ -17,29 +18,21 @@
 	String addr1 = request.getParameter("addr1");
 	String addr2 = request.getParameter("addr2");
 	String regip = request.getRemoteAddr(); // 클라이언트 IP주소
+	
 	// 데이터베이스 작업
-	try{
-		Connection conn = DBCP.getConnection();
-				
-		PreparedStatement psmt = conn.prepareStatement(SQL.INSERT_USER);
-		psmt.setString(1, uid);
-		psmt.setString(2, pass1);
-		psmt.setString(3, name);
-		psmt.setString(4, nick);
-		psmt.setString(5, email);
-		psmt.setString(6, hp);
-		psmt.setString(7, zip);
-		psmt.setString(8, addr1);
-		psmt.setString(9, addr2);
-		psmt.setString(10, regip);
-		
-		psmt.executeUpdate();
-		
-		psmt.close();
-		conn.close();		
-	}catch(Exception e){
-		e.printStackTrace();
-	}
+	UserBean user = new UserBean();
+	user.setUid(uid);
+	user.setPass(pass1);
+	user.setName(name);
+	user.setNick(nick);
+	user.setEmail(email);
+	user.setHp(hp);
+	user.setZip(zip);
+	user.setAddr1(addr1);
+	user.setAddr2(addr2);
+	user.setRegip(regip);
+	
+	UserDAO.getInstance().insertUser(user);
 	       
 	// 리다이렉트
 	response.sendRedirect("/JBoard1/user/login.jsp");

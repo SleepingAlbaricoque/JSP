@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="kr.co.jboard1.dao.UserDAO"%>
 <%@page import="kr.co.jboard1.db.SQL"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.ResultSet"%>
@@ -22,26 +24,9 @@
 	});
 </script>
 <%
-	String terms = null;
-	String privacy = null;
-
-	try{
-		Connection conn = DBCP.getConnection();
-		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery(SQL.SELECT_TERMS);
-		
-		if(rs.next()){
-			terms = rs.getString(1);
-			privacy = rs.getString(2);
-		}
-		
-		rs.close();
-		stmt.close();
-		conn.close();
-		
-	}catch(Exception e){
-		e.printStackTrace();
-	}
+	List<String> info = UserDAO.getInstance().selectTerms();
+	String terms = info.get(0);
+	String privacy = info.get(1);
 %>
         <main id="user" class="terms">
             <table border="0">

@@ -1,3 +1,4 @@
+<%@page import="kr.co.jboard1.dao.UserDAO"%>
 <%@page import="kr.co.jboard1.db.SQL"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -11,26 +12,7 @@
 	String uid = request.getParameter("uid");
 	
 	// 데이터베이스 확인
-	int result = 0;
-	
-	try{
-		Connection conn = DBCP.getConnection();
-		
-		PreparedStatement psmt = conn.prepareStatement(SQL.SELECT_COUNT_UID);
-		psmt.setString(1, uid);
-		
-		ResultSet rs = psmt.executeQuery();
-		if(rs.next()){
-			result = rs.getInt(1);
-		}
-		
-		rs.close();
-		psmt.close();
-		conn.close();		
-		
-	}catch(Exception e){
-		e.printStackTrace();
-	}
+	int result = UserDAO.getInstance().selectCountUid(uid);
 	
 	// JSON 출력
 	JsonObject json = new JsonObject();
