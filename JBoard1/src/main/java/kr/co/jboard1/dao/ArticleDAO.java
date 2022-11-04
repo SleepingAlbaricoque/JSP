@@ -7,6 +7,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import kr.co.jboard1.bean.ArticleBean;
 import kr.co.jboard1.bean.FileBean;
 import kr.co.jboard1.db.DBCP;
@@ -14,6 +17,9 @@ import kr.co.jboard1.db.SQL;
 
 // DAO: Data Access Object
 public class ArticleDAO { // 싱글턴 객체
+	
+	Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	private static ArticleDAO instance = new ArticleDAO();
 	public static ArticleDAO getInstance() {
 		return instance;
@@ -25,6 +31,7 @@ public class ArticleDAO { // 싱글턴 객체
 		int parent = 0;
 		
 		try{
+			logger.info("insertArticle starts");
 			Connection conn = DBCP.getConnection(); // connection은 정보 객체(객체는 곧 정보 덩어리) -> 이를 바탕으로 쿼리문 객체 생성
 			conn.setAutoCommit(false);
 			
@@ -53,6 +60,7 @@ public class ArticleDAO { // 싱글턴 객체
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		
 		return parent;
@@ -60,6 +68,8 @@ public class ArticleDAO { // 싱글턴 객체
 	
 	public void insertFile(int parent, String newName, String fname) {
 		try{
+			logger.info("insertFile starts");
+			
 			Connection conn = DBCP.getConnection();
 			PreparedStatement psmt = conn.prepareStatement(SQL.INSERT_FILE);
 			psmt.setInt(1, parent);
@@ -72,6 +82,7 @@ public class ArticleDAO { // 싱글턴 객체
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 	}
 	
@@ -113,6 +124,7 @@ public class ArticleDAO { // 싱글턴 객체
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		
 		return article;
@@ -151,6 +163,7 @@ public class ArticleDAO { // 싱글턴 객체
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		
 		return ab;
@@ -189,6 +202,7 @@ public class ArticleDAO { // 싱글턴 객체
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		
 		return articles;
@@ -219,6 +233,7 @@ public class ArticleDAO { // 싱글턴 객체
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		
 		return fb;
@@ -258,6 +273,7 @@ public class ArticleDAO { // 싱글턴 객체
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		
 		return comments;
@@ -285,6 +301,7 @@ public class ArticleDAO { // 싱글턴 객체
 			
 		}catch(Exception e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		
 		return total;
@@ -302,6 +319,7 @@ public class ArticleDAO { // 싱글턴 객체
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 	}
 	
@@ -317,6 +335,7 @@ public class ArticleDAO { // 싱글턴 객체
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 	}
 	
@@ -334,6 +353,7 @@ public class ArticleDAO { // 싱글턴 객체
 			conn.close();
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		
 		return result; // 잘 작동했는 지 체크하기위해
@@ -353,6 +373,23 @@ public class ArticleDAO { // 싱글턴 객체
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
+		}
+	}
+	
+	public void updateArticleComment(String parent) {
+		try {
+			Connection conn = DBCP.getConnection();
+			PreparedStatement psmt = conn.prepareStatement(SQL.UPDATE_ARTICLE_COMMENT);
+			psmt.setString(1, parent);
+			psmt.executeUpdate();
+			
+			psmt.close();
+			conn.close();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 	}
 	
@@ -370,6 +407,7 @@ public class ArticleDAO { // 싱글턴 객체
 			
 		}catch(Exception e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		return result;
 	}
@@ -387,6 +425,7 @@ public class ArticleDAO { // 싱글턴 객체
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 	}
 	
@@ -419,8 +458,13 @@ public class ArticleDAO { // 싱글턴 객체
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		
 		return newName;
+	}
+	
+	public void deleteArticleComment() {
+		
 	}
 }

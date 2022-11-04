@@ -7,11 +7,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import kr.co.jboard1.bean.UserBean;
 import kr.co.jboard1.db.DBCP;
 import kr.co.jboard1.db.SQL;
 
 public class UserDAO {
+	
+	Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	private static UserDAO instance = new UserDAO();
 	public static UserDAO getInstance() {
 		return instance;
@@ -41,6 +47,7 @@ public class UserDAO {
 			conn.close();		
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 	}
 	
@@ -79,6 +86,7 @@ public class UserDAO {
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		return ub;
 	}
@@ -103,6 +111,7 @@ public class UserDAO {
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		return result;
 	}
@@ -127,6 +136,7 @@ public class UserDAO {
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		return result;
 	}
@@ -152,6 +162,7 @@ public class UserDAO {
 			
 		}catch(Exception e){
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		
 		info.add(terms);

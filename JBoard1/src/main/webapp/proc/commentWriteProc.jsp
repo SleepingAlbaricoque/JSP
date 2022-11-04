@@ -21,6 +21,7 @@
 	comment.setRegip(regip);
 	
 	ArticleBean article = ArticleDAO.getInstance().insertComment(comment);
+	ArticleDAO.getInstance().updateArticleComment(parent);
 	
 	//response.sendRedirect("/JBoard1/view.jsp?no="+parent+"&pg="+pg);
 	
