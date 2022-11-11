@@ -83,7 +83,7 @@ public class User1Dao extends DBHelper{
 		return users;
 	}
 	
-	public User1VO updateUser(User1VO vo) {
+	public void updateUser(User1VO vo) {
 		try {
 			conn = getConnection();
 			psmt = conn.prepareStatement("update `user1` set `name`=?, `hp`=?, `age`=? where `uid`=?");
@@ -98,7 +98,6 @@ public class User1Dao extends DBHelper{
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return vo;
 	}
 	
 	public void deleteUser(String uid) {
