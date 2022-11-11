@@ -10,23 +10,23 @@
 		
 		<a href="/Ch09/user1/list.do">user 목록</a>
 		
-		<form action="#" method="post">
+		<form action="/Ch09/user1/modify.do" method="post">
 			<table border="1">
 				<tr>
 					<td>아이디</td>
-					<td><input type="text" name="uid" value="a" readonly/></td> <!-- 데이터베이스에서 기존 정보 불러온 것임 -->
+					<td><input type="text" name="uid" value="${requestScope.vo.uid}" readonly/></td> <!-- 데이터베이스에서 기존 정보 불러온 것임 -->
 				</tr>
 				<tr>
 					<td>이름</td>
-					<td><input type="text" name="name" value="a"/></td>
+					<td><input type="text" name="name" value="${vo.name}"/></td>
 				</tr>
 				<tr>
 					<td>휴대폰</td>
-					<td><input type="text" name="hp" value="a"/></td>
+					<td><input type="text" name="hp" value="${vo.hp}"/></td>
 				</tr>
 				<tr>
 					<td>나이</td>
-					<td><input type="number" name="age" value="a"/></td>
+					<td><input type="number" name="age" value="${vo.age}"/></td>
 				</tr>
 				<tr>
 					<td colspan="2" align="right"></td>
