@@ -25,7 +25,7 @@ public class DeleteController extends HttpServlet{
 		
 		User2Dao.getInstance().deleteUser(uid);
 		
-		resp.sendRedirect("/user2/list.do");
+		resp.sendRedirect("/Ch09/user2/list.do");
 	}
 	
 	@Override
