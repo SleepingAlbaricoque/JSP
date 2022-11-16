@@ -24,6 +24,7 @@
                     </a>
                     <img src="./img/main_latest1_img.jpg" alt="이미지">
                     <table border="0">
+                    
                         <tr>
                             <td>></td>
                             <td>
@@ -31,6 +32,7 @@
                             </td>
                             <td>20-12-22</td>
                         </tr>
+                        
                         <tr>
                             <td>></td>
                             <td>
