@@ -100,10 +100,9 @@ public class ArticleDAO {
 				ab.setUid(rs.getString(9));
 				ab.setRegip(rs.getString(10));
 				ab.setRdate(rs.getString(11));
-				ab.setNick(rs.getString(12));
-				ab.setFno(rs.getInt(13));
-				ab.setOriName(rs.getString(14));
-				ab.setDownload(rs.getInt(15));
+				ab.setFno(rs.getInt(12));
+				ab.setOriName(rs.getString(15));
+				ab.setDownload(rs.getInt(16));
 			}
 			
 			rs.close();
@@ -214,12 +213,14 @@ public class ArticleDAO {
 		return latests;
 	}
 	
-	public int selectCountTotal() {
+	public int selectCountTotal(String cate) {
 		int total = 0;
 		
 		try {
 			Connection conn = DBCP.getConnection();
 			PreparedStatement psmt = conn.prepareStatement(SQL.SELECT_COUNT_TOTAL);
+			psmt.setString(1, cate);
+			
 			ResultSet rs = psmt.executeQuery();
 			
 			if(rs.next()) {

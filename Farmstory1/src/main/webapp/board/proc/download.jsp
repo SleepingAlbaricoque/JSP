@@ -16,6 +16,13 @@
 	// 파일 다운로드 카운트 올리기
 	ArticleDAO.getInstance().updateFileDownload(fno);
 	
+	// response 헤더 수정
+	response.setContentType("application/octet-stream");
+	response.setHeader("Content-Disposition", "attachment; filename="+URLEncoder.encode(fb.getOriName(), "utf-8"));
+	response.setHeader("Content-Transfer-Encoding", "binary");
+	response.setHeader("Pragma", "no-cache");
+	response.setHeader("Cache-Control", "private");
+	
 	// 파일 다운로드
 	String savePath = application.getRealPath("/file");
 	File file = new File(savePath + "/" + fb.getNewName());
@@ -34,11 +41,4 @@
 	
 	bos.close();
 	bis.close();
-	
-	// response 헤더 수정
-	response.setContentType("application/octet-stream");
-	response.setHeader("Content-Disposition", "attachment; filename="+URLEncoder.encode(fb.getOriName(), "utf-8"));
-	response.setHeader("Content-Transfer-Encoding", "binary");
-	response.setHeader("Pragma", "no-cache");
-	response.setHeader("Cache-Control", "private");
 %>

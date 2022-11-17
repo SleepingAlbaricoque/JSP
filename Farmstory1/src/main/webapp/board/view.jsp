@@ -5,6 +5,7 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	String no = request.getParameter("no");
+	String pg = request.getParameter("pg");
 	
 	// 글 불러오기
 	ArticleBean ab = ArticleDAO.getInstance().selectArticle(no);
@@ -23,6 +24,44 @@
 	// aside 내용 불러오기
 	pageContext.include("./_" + group+ ".jsp");
 %>
+<script>
+	$(function(){
+		
+		// 글 작성하기
+		$('.commentForm > form').submit(function(){
+			
+			let pg =$(this).children('input[name=pg]').val();
+			let parent =$(this).children('input[name=parent]').val();
+			let uid =$(this).children('input[name=uid]').val();
+			let content =$(this).children('textarea[name=content]').val();
+			
+			let jsonData ={
+				"pg": pg,	
+				"parent": parent,	
+				"uid": uid,	
+				"content": content,	
+			};
+			
+			$.ajax({
+				url: '/Farmstory1/board/proc/commentWriteProc.jsp',
+				method: 'POST',
+				data: 'jsonData',
+				dataType: 'json',
+				success: function(data){
+					
+					let article = "<article>";
+						article += "<span class="nick">"+data.nick+"</span>";
+						article += "<span class="date">"+data.date+"</span>";
+						article += "";
+						article += "";
+						article += "";
+						article += "";
+						article += "";
+				}
+			});
+		});
+	});
+</script>
 		        <main id="board" class="view">
 		           <table>
 		            <caption>글보기</caption>
@@ -47,7 +86,7 @@
 		                <a href="#" class="btn btnRemove">삭제</a>
 		                <a href="./modify.jsp?group=<%= group %>&cate=<%= cate %>" class="btn btnModify">수정</a>
 		                <% } %>
-		                <a href="./list.jsp?group=<%= group %>&cate=<%= cate %>" class="btn btnList">목록</a>
+		                <a href="./list.jsp?group=<%= group %>&cate=<%= cate %>&pg=<%= pg %>" class="btn btnList">목록</a>
 		           </div>
 		
 		           <!--댓글 목록-->
@@ -68,7 +107,10 @@
 		           <!--댓글 쓰기-->
 		           <section class="commentForm">
 		                <h3>댓글쓰기</h3>
-		                <form action="#">
+		                <form action="#" method="post">
+		                	<input type="hidden" name="pg" value="<%= pg %>">
+		                	<input type="hidden" name="parent" value="<%= no %>">
+		                	<input type="hidden" name="uid" value="<%= sessUser.getUid() %>">
 		                    <textarea name="content" placeholder="댓글내용 입력"></textarea>
 		                    <div>
 		                        <a href="#" class="btn btnCancel">취소</a>

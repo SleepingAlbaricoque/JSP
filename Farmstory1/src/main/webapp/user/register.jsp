@@ -68,8 +68,8 @@
                     <td>
                         <input type="text" name="zip" id="zip" placeholder="우편번호 검색" readonly>
                         <button type="button" onclick="postcode()"><img src="./img/chk_post.gif" alt="우편번호 찾기"></button>
-                        <input type="text" name="addr1" placeholder="기본주소 검색" readonly>
-                        <input type="text" name="addr2" placeholder="상세주소 입력">
+                        <input type="text" name="addr1" id="addr1" placeholder="기본주소 검색" readonly>
+                        <input type="text" name="addr2" id="addr2" placeholder="상세주소 입력">
                     </td>
                 </tr>
             </table>

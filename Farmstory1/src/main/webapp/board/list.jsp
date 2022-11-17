@@ -27,7 +27,7 @@
 	pageGroupEnd = currentPageGroup * 10;
 	
 	// 전체 게시물 갯수
-	total = ArticleDAO.getInstance().selectCountTotal();
+	total = ArticleDAO.getInstance().selectCountTotal(cate);
 	
 	// 마지막 페이지 번호
 	if(total % 10 == 0)
@@ -57,7 +57,7 @@
 		                <% for(ArticleBean ab : articles){ %>
 		                <tr>
 		                    <td><%=pageStartNum-- %></td>
-		                    <td><a href="./view.jsp?group=<%= group %>&cate=<%= cate %>&no=<%= ab.getNo() %>"><%= ab.getTitle() %>[<%= ab.getComment() %>]</a></td>
+		                    <td><a href="./view.jsp?group=<%= group %>&cate=<%= cate %>&no=<%= ab.getNo() %>&pg=<%= currentPage %>"><%= ab.getTitle() %>[<%= ab.getComment() %>]</a></td>
 		                    <td><%= ab.getNick() %></td>
 		                    <td><%= ab.getRdate().substring(2, 10) %></td>
 		                    <td><%= ab.getHit() %></td>
