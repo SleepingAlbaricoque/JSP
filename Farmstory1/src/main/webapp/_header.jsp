@@ -1,6 +1,9 @@
 <%@page import="kr.co.farmstory1.beans.UserBean"%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <% 
+	request.setCharacterEncoding("UTF-8");
+	String success = request.getParameter("success");
+
 	UserBean sessUser = (UserBean) session.getAttribute("sessUser");
 %>
 <!DOCTYPE html>
@@ -8,10 +11,34 @@
 <head>
     <meta charset="UTF-8">
     <title>팜스토리::메인</title>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css"/>
     <link rel="stylesheet" href="/Farmstory1/css/style.css">
     <link rel="stylesheet" href="/Farmstory1/user/css/style.css">
     <link rel="stylesheet" href="/Farmstory1/board/css/style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>        
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>  
+    <script>
+	    $(function(){
+	        $('.slider > ul').bxSlider({
+	            slideWidth: 980,
+	            pager: false,
+	            controls: false,
+	            auto: true
+	        });
+	        $('#tabs').tabs();
+	    });
+	    
+	    let success = "<%= success %>";
+	    
+	    if(success == '100'){
+	    	alert('일치하는 회원이 없습니다.\n아이디, 비밀번호를 다시 확인하시기 바랍니다.');
+	    }else if(success == 101){
+	    	alert('먼저 로그인을 하세요');
+	    }
+</script>
+    </script>        
 </head>
 <body>
     <div id="wrapper">

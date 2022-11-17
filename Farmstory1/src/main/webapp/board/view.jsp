@@ -1,9 +1,26 @@
+<%@page import="kr.co.farmstory1.beans.ArticleBean"%>
+<%@page import="kr.co.farmstory1.dao.ArticleDAO"%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../_header.jsp" %>
 <%
+	request.setCharacterEncoding("UTF-8");
+	String no = request.getParameter("no");
+	
+	// 글 불러오기
+	ArticleBean ab = ArticleDAO.getInstance().selectArticle(no);
+	
+	// 글 조회 수 올리기
+	ArticleDAO.getInstance().updateArticleHit(no);
+
+	if(sessUser == null){
+		response.sendRedirect("/Farmstory1/user/login.jsp?success=101");
+		return;
+	}
+
 	String group = request.getParameter("group");
 	String cate = request.getParameter("cate");
 	
+	// aside 내용 불러오기
 	pageContext.include("./_" + group+ ".jsp");
 %>
 		        <main id="board" class="view">
@@ -11,21 +28,25 @@
 		            <caption>글보기</caption>
 		            <tr>
 		                <th>제목</th>
-		                <td><input type="text" name="title" value="제목입니다." readonly></td>
+		                <td><input type="text" name="title" value="<%= ab.getTitle() %>" readonly></td>
 		            </tr>
+		            <% if(ab.getFile() >0 ){ %>
 		            <tr>
 		                <th>파일</th>
-		                <td><a href="#">2020년 상반기 매출자료.xls</a><span>7</span>회 다운로드</td>
+		                <td><a href="/Farmstory1/board/proc/download.jsp?fno=<%= ab.getFno() %>"><%= ab.getOriName() %></a><span><%= ab.getDownload() %></span>회 다운로드</td>
 		            </tr>
+		            <% } %>
 		            <tr>
 		                <th>내용</th>
-		                <td><textarea name="content" readonly>내용 샘플입니다.</textarea></td>
+		                <td><textarea name="content" readonly><%= ab.getContent() %></textarea></td>
 		            </tr>
 		           </table>
 		
 		           <div>
+		           		<% if(sessUser.getUid().equals(ab.getUid())){ %>
 		                <a href="#" class="btn btnRemove">삭제</a>
 		                <a href="./modify.jsp?group=<%= group %>&cate=<%= cate %>" class="btn btnModify">수정</a>
+		                <% } %>
 		                <a href="./list.jsp?group=<%= group %>&cate=<%= cate %>" class="btn btnList">목록</a>
 		           </div>
 		

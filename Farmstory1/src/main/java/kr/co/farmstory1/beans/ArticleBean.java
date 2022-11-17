@@ -13,7 +13,35 @@ public class ArticleBean {
 	private String regip;
 	private String rdate;
 	private String nick;
+	private String fname;
+	private int fno;
+	private String oriName;
+	private int download;
 	
+	public int getFno() {
+		return fno;
+	}
+	public void setFno(int fno) {
+		this.fno = fno;
+	}
+	public String getOriName() {
+		return oriName;
+	}
+	public void setOriName(String oriName) {
+		this.oriName = oriName;
+	}
+	public int getDownload() {
+		return download;
+	}
+	public void setDownload(int download) {
+		this.download = download;
+	}
+	public String getFname() {
+		return fname;
+	}
+	public void setFname(String fname) {
+		this.fname = fname;
+	}
 	public String getNick() {
 		return nick;
 	}
