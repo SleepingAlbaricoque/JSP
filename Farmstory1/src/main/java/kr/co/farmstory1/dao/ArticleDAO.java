@@ -77,6 +77,47 @@ public class ArticleDAO {
 		}
 	}
 	
+	public ArticleBean insertComment(ArticleBean comment) {
+		ArticleBean article = null;
+		
+		try {
+			Connection conn = DBCP.getConnection();
+			
+			conn.setAutoCommit(false);
+			
+			PreparedStatement psmt = conn.prepareStatement(SQL.INSERT_COMMENT);
+			
+			psmt.setInt(1, comment.getParent());
+			psmt.setString(2, comment.getContent());
+			psmt.setString(3, comment.getUid());
+			psmt.setString(4, comment.getRegip());
+			psmt.executeUpdate();
+			
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(SQL.SELECT_COMMENT_LATEST);
+			
+			conn.commit();
+			
+			if(rs.next()) {
+				article = new ArticleBean();
+				article.setNo(rs.getInt(1));
+				article.setParent(rs.getInt(2));
+				article.setContent(rs.getString(6));
+				article.setRdate(rs.getString(11).substring(2,10));				
+				article.setNick(rs.getString(12));				
+			}
+			
+			rs.close();
+			stmt.close();
+			psmt.close();
+			conn.close();
+
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return article;
+	}
+	
 	// select
 	public ArticleBean selectArticle(String no) {
 		ArticleBean ab = null;
@@ -298,6 +339,21 @@ public class ArticleDAO {
 			
 		}catch(Exception e) {
 			logger.error(e.getMessage());
+		}
+	}
+	
+	public void updateArticleComment(String parent) {
+		try {
+			Connection conn = DBCP.getConnection();
+			PreparedStatement psmt = conn.prepareStatement(SQL.UPDATE_ARTICLE_COMMENT);
+			psmt.setString(1, parent);
+			psmt.executeUpdate();
+			
+			psmt.close();
+			conn.close();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 	

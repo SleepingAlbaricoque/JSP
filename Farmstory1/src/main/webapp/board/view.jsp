@@ -52,11 +52,16 @@
 					let article = "<article>";
 						article += "<span class="nick">"+data.nick+"</span>";
 						article += "<span class="date">"+data.date+"</span>";
-						article += "";
-						article += "";
-						article += "";
-						article += "";
-						article += "";
+						article += "<p class='content'>"+data.content+"</p>";
+						article += "<div>";
+						article += "<a href='#' class='remove' data-no='"+data.no+"'>삭제</a>";
+						article += "<a href='#' class='modify' data-no='"+data.no+"'>수정</a>";
+						article += "</div>";
+						article += "</article>";
+						
+					$('.commentList > .empty').hide();
+					$('.commentList').append(article);
+					textarea.val('');
 				}
 			});
 		});
