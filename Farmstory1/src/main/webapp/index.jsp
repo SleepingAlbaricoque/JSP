@@ -71,8 +71,8 @@ $(function(){
     </div>
 
     <div class="quick">
-        <a href="#"><img src="./img/main_banner_sub1_tit.png" alt="오늘의 식단"></a>
-        <a href="#"><img src="./img/main_banner_sub2_tit.png" alt="나도 요리사"></a>                
+        <a href="/Farmstory1/board/list.jsp?group=community&cate=menu&pg=1"><img src="./img/main_banner_sub1_tit.png" alt="오늘의 식단"></a>
+        <a href="/Farmstory1/board/list.jsp?group=community&cate=chef&pg=1"><img src="./img/main_banner_sub2_tit.png" alt="나도 요리사"></a>                
     </div>
 
     <div class="latest">
@@ -140,8 +140,8 @@ $(function(){
                 </p>
             </div>
             <div class="btns">
-                <a href="#"><img src="./img/main_sub2_cs_bt1.png" alt="1:1 고객문의"></a>
-                <a href="#"><img src="./img/main_sub2_cs_bt2.png" alt="자주묻는질문"></a>
+                <a href="/Farmstory1/board/list.jsp?group=community&cate=qna&pg=1"><img src="./img/main_sub2_cs_bt1.png" alt="1:1 고객문의"></a>
+                <a href="/Farmstory1/board/list.jsp?group=community&cate=faq&pg=1"><img src="./img/main_sub2_cs_bt2.png" alt="자주묻는질문"></a>
                 <a href="#"><img src="./img/main_sub2_cs_bt3.png" alt="배송조회"></a>
             </div>
         </div>

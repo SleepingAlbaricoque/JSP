@@ -20,4 +20,13 @@
 	ArticleDAO.getInstance().updateArticleComment(parent); // 원글 댓글 카운트 1 올리기
 	
 	JsonObject json = new JsonObject();
+	json.addProperty("result", 1);
+	json.addProperty("no", article.getNo());
+	json.addProperty("parent", article.getParent());
+	json.addProperty("nick", article.getNick());
+	json.addProperty("date", article.getRdate());
+	json.addProperty("content", article.getContent());
+	
+	String jsonData = json.toString();
+	out.print(jsonData);
 %>

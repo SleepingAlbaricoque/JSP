@@ -10,6 +10,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.mysql.cj.protocol.Resultset;
+
 import kr.co.farmstory1.beans.ArticleBean;
 import kr.co.farmstory1.beans.FileBean;
 import kr.co.farmstory1.db.DBCP;
@@ -307,8 +309,61 @@ public class ArticleDAO {
 		return fb;
 	}
 	
+	public List<ArticleBean> selectComments(String parent){
+		List<ArticleBean> comments = new ArrayList<>();
+		ArticleBean comment = null;
+		
+		try {
+			logger.debug("selectComments called");
+			Connection conn = DBCP.getConnection();
+			PreparedStatement psmt = conn.prepareStatement(SQL.SELECT_COMMENTS);
+			psmt.setString(1, parent);
+			ResultSet rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				comment = new ArticleBean();
+				comment.setNo(rs.getInt(1));
+				comment.setParent(rs.getInt(2));
+				comment.setComment(rs.getInt(3));
+				comment.setCate(rs.getString(4));
+				comment.setTitle(rs.getString(5));
+				comment.setContent(rs.getString(6));
+				comment.setFile(rs.getInt(7));
+				comment.setHit(rs.getInt(8));
+				comment.setUid(rs.getString(9));
+				comment.setRegip(rs.getString(10));
+				comment.setRdate(rs.getString(11).substring(2,10)); // 날짜 포맷 맞추기 위해 substring(년도 두 자리, 월, 일 표시)
+				comment.setNick(rs.getString(12));
+				comments.add(comment);
+			}
+			rs.close();
+			psmt.close();
+			conn.close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		return comments;
+	}
+	
 	// update
-	public void updateArticle() {}
+	public void updateArticle(String title, String content, String no) {
+		try {
+			logger.debug("updateArticle called");
+			Connection conn = DBCP.getConnection();
+			PreparedStatement psmt = conn.prepareStatement(SQL.UPDATE_ARTICLE);
+			psmt.setString(1, title);
+			psmt.setString(2, content);
+			psmt.setString(3, no);
+			psmt.executeUpdate();
+			
+			psmt.close();
+			conn.close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
 	
 	public void updateArticleHit(String no) {
 		try {
@@ -357,6 +412,152 @@ public class ArticleDAO {
 		}
 	}
 	
+	public int updateComment(String content, String no) {
+		int result =0;
+		
+		try {
+			logger.debug("updateComment called");
+			Connection conn = DBCP.getConnection();
+			PreparedStatement psmt = conn.prepareStatement(SQL.UPDATE_COMMENT);
+			psmt.setString(1, content);
+			psmt.setString(2, no);
+			result = psmt.executeUpdate();
+			
+			psmt.close();
+			conn.close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		return result;
+	}
+	
+	public void updateFile(String no, String newName, String file) {
+		try {
+			logger.debug("updateFile called");
+			Connection conn = DBCP.getConnection();
+			PreparedStatement psmt = conn.prepareStatement(SQL.UPDATE_FILE);
+			psmt.setString(1, newName);
+			psmt.setString(2, file);
+			psmt.setString(3, no);
+			psmt.executeUpdate();
+			
+			psmt.close();
+			conn.close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	public void updateArticleFile(String no) {
+		try {
+			Connection conn = DBCP.getConnection();
+			PreparedStatement psmt = conn.prepareStatement(SQL.UPDATE_ARTICLE_FILE);
+			psmt.setString(1, no);
+			psmt.executeUpdate();
+			
+			psmt.close();
+			conn.close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	public void updateCommentCounter(String no) {
+		String parent = null;
+		
+		try {
+			logger.debug("updateCommentCounter called");
+			Connection conn = DBCP.getConnection();
+			
+			PreparedStatement psmt1 = conn.prepareStatement(SQL.SELECT_COMMENT);
+			psmt1.setString(1, no);
+			ResultSet rs = psmt1.executeQuery();
+			if(rs.next()) {
+				parent = rs.getString(1);
+			}
+			
+			PreparedStatement psmt2 = conn.prepareStatement(SQL.UPDATE_COMMENT_COUNTER);
+			psmt2.setString(1, parent);
+			psmt2.executeUpdate();
+			
+			psmt2.close();
+			psmt1.close();
+			conn.close();		
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
 	// delete
-	public void deleteArticle() {}
+	public void deleteArticle(String no) {
+		try {
+			logger.debug("deleteArticle called");
+			Connection conn = DBCP.getConnection();
+			PreparedStatement psmt = conn.prepareStatement(SQL.DELETE_ARTICLE);
+			psmt.setString(1, no);
+			psmt.setString(2, no);
+			psmt.executeUpdate();
+			
+			psmt.close();
+			conn.close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	public int deleteComment(String no) {
+		int result =0;
+		
+		try {
+			Connection conn = DBCP.getConnection();
+			PreparedStatement psmt = conn.prepareStatement(SQL.DELETE_COMMENT);
+			psmt.setString(1, no);
+			result = psmt.executeUpdate();
+			
+			psmt.close();
+			conn.close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		return result;
+	}
+	
+	public String deleteFile(String no) {
+		String newName = null;
+		
+		try{
+			Connection conn = DBCP.getConnection();
+			
+			conn.setAutoCommit(false);
+			
+			PreparedStatement psmt1 = conn.prepareStatement(SQL.SELECT_FILE_WITH_PARENT);
+			PreparedStatement psmt2 = conn.prepareStatement(SQL.DELETE_FILE);
+			psmt1.setString(1, no);
+			psmt2.setString(1, no);
+			
+			ResultSet rs = psmt1.executeQuery();
+			psmt2.executeUpdate();
+			
+			conn.commit();
+			
+			if(rs.next()) {
+				newName = rs.getString(3);
+			}
+			
+			rs.close();
+			psmt1.close();
+			psmt2.close();
+			conn.close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		return newName;
+	}
 }
