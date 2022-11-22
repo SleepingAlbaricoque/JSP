@@ -3,13 +3,9 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>login page</title>
+		<title>Insert title here</title>
 	</head>
 	<body>
-		<form action="">
-			<table border="1">
-				<tr></tr>
-			</table>
-		</form>
+		
 	</body>
 </html>

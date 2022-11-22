@@ -8,7 +8,7 @@ public class UserVO {
 	private String email;
 	private String hp;
 	private int grade;
-	private int zip;
+	private String zip;
 	private String addr1;
 	private String addr2;
 	private String regip;
@@ -56,10 +56,10 @@ public class UserVO {
 	public void setGrade(int grade) {
 		this.grade = grade;
 	}
-	public int getZip() {
+	public String getZip() {
 		return zip;
 	}
-	public void setZip(int zip) {
+	public void setZip(String zip) {
 		this.zip = zip;
 	}
 	public String getAddr1() {
