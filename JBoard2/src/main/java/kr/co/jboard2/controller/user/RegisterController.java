@@ -46,7 +46,7 @@ public class RegisterController extends HttpServlet{
 		vo.setNick(nick);
 		vo.setEmail(email);
 		vo.setHp(hp);
-		vo.setZip(Integer.parseInt(zip));
+		vo.setZip(zip);
 		vo.setAddr1(addr1);
 		vo.setAddr2(addr2);
 		
