@@ -36,7 +36,7 @@ public class EmailAuthController extends HttpServlet {
 		
 		// 기본정보
 		String sender = "tnqls0421@gmail.com";
-		String password = ".";
+		String password = "semzvrikbtdgzxfm";
 				
 		String title = "JBoard2 인증코드 입니다.";
 		String content = "인증코드 6자리는 "+code+" 입니다.";

@@ -67,6 +67,7 @@
 					$('.pwResult').css('color', 'red').text('영문, 숫자, 특수문자 조합 최소 다섯 자 이상이어야 합니다');
 				}
 			}else{
+				isPassOk = false;
 				$('.pwResult').css('color', 'red').text('패스워드가 일치하지 않습니다');
 			}
 		});

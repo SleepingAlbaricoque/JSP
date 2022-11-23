@@ -8,6 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import kr.co.jboard2.vo.UserVO;
 
 @WebServlet("/user/findIdResult.do")
 public class FindIdResultController extends HttpServlet{

@@ -20,6 +20,8 @@ public class SQL {
 	public static final String SELECT_COUNT_UID = "select count(`uid`) from `board_user` where `uid`=?"; // checkUid
 	public static final String SELECT_COUNT_NICK = "select count(`nick`) from `board_user` where `nick`=?"; // checkNick
 	public static final String SELECT_TERMS = "select * from `board_terms`"; // terms
+	public static final String SELECT_USER_FOR_FIND_ID ="select `uid`, `name`, `email`, `rdate` from `board_user` where `name`=? and `email`=?";
+	public static final String SELECT_USER_FOR_FIND_PW ="select count(`uid`) from `board_user` where `uid`=? and `email`=?";
 	
 	// BOARD
 	public static final String INSERT_ARTICLE = "insert into `board_article` set `title`=?, `content`=?, `file`=?, `uid`=?, `regip`=?, `rdate`=NOW()";
@@ -63,6 +65,7 @@ public class SQL {
 	public static final String UPDATE_FILE_DOWNLOAD = "update `board_file` set `download` = `download` + 1 where `fno`=?";
 	public static final String UPDATE_COMMENT = "update `board_article` set `content`=?, `rdate`=NOW() where `no`=?";
 	public static final String UPDATE_ARTICLE = "update `board_article` set `title`=?, `content`=?, `rdate`=NOW() where `no`=?";
+	public static final String UPDATE_USER_PASSWORD = "update `board_user` set `pass`=SHA2(?, 256) where `uid`=?";
 	
 	public static final String DELETE_COMMENT = "delete from `board_article` where `no`=?";
 	public static final String DELETE_ARTICLE = "delete from `board_article` where `no`=? or `parent`=?";

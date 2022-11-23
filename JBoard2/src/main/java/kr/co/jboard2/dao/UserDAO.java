@@ -19,6 +19,7 @@ public class UserDAO extends DBHelper{
 	// 로거 생성
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	// insert
 	public void insertUser(UserVO vo) {
 		try {
 			logger.info("insertUser called");
@@ -44,6 +45,7 @@ public class UserDAO extends DBHelper{
 		}
 	}
 	
+	// select
 	public TermsVO selectTerms() {
 		TermsVO vo = null;
 		
@@ -152,6 +154,80 @@ public class UserDAO extends DBHelper{
 	}
 	
 	public void selectUsers() {}
+	
+	public UserVO selectUserForFindId(String name, String email) {
+		UserVO vo = null;
+		
+		try {
+			logger.info("selectUserForFindId called");
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.SELECT_USER_FOR_FIND_ID);
+			psmt.setString(1, name);
+			psmt.setString(2, email);
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				vo = new UserVO();
+				vo.setUid(rs.getString(1));
+				vo.setName(rs.getString(2));
+				vo.setEmail(rs.getString(3));
+				vo.setRdate(rs.getString(4));
+			}
+			
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("vo" + vo);
+		return vo;
+	}
+	
+	
+	public int selectUserForFindPw(String uid, String email) {
+		int result = 0;
+		
+		try {
+			logger.info("selectUserForFindPw called");
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.SELECT_USER_FOR_FIND_PW);
+			psmt.setString(1, uid);
+			psmt.setString(2, email);
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("result " + result);
+		return result;
+	}
+	
+	// update
 	public void updateUser() {}
+	
+	public int updateUserPass(String uid, String pass) {
+		int result = 0;
+		try {
+			logger.info("updateUserPass called");
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.UPDATE_USER_PASSWORD);
+			psmt.setString(1, pass);
+			psmt.setString(2, uid);
+			result = psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		return result;
+	}
+	
+	// delete
 	public void deleteUser() {}
 }
