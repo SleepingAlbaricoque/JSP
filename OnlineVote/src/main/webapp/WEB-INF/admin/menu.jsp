@@ -3,15 +3,9 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>registration</title>
+		<title>Insert title here</title>
 	</head>
 	<body>
-		<form action="">
-			<table border="1">
-				<tr>
-					<td></td>
-				</tr>
-			</table>
-		</form>
+		
 	</body>
 </html>

@@ -3,10 +3,10 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>login page</title>
+		<title>admin login</title>
 	</head>
 	<body>
-		<form action="/OnlineVote/login.do">
+		<form action="/OnlineVote/admin/adminLogin.do">
 			<table border="1">
 				<tr>
 					<td>id</td>
@@ -20,10 +20,9 @@
 					<td colspan="2" align="right"><input type="submit" value="Log In"></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="center"><a href="/voter/register.do">Register here</a></td>
+					<td colspan="2" align="center"><a href="/admin/register.do">Register here</a></td>
 				</tr>
 			</table>
 		</form>
-		<span>Click <a href="/OnlineVote/admin/adminLogin.do">here</a> if you're an administrator</span>
 	</body>
 </html>
