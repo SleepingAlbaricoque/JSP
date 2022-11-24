@@ -6,7 +6,7 @@
 		<title>login page</title>
 	</head>
 	<body>
-		<form action="/OnlineVote/login.do">
+		<form action="/OnlineVote/login.do" method="post">
 			<table border="1">
 				<tr>
 					<td>id</td>
@@ -14,13 +14,13 @@
 				</tr>
 				<tr>
 					<td>password</td>
-					<td><input type="password" name="pass" placeholder="Enter Password"></td>
+					<td><input type="password" name="password" placeholder="Enter Password"></td>
 				</tr>
 				<tr>
 					<td colspan="2" align="right"><input type="submit" value="Log In"></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="center"><a href="/voter/register.do">Register here</a></td>
+					<td colspan="2" align="center"><a href="/OnlineVote/voter/register.do">Register here</a></td>
 				</tr>
 			</table>
 		</form>

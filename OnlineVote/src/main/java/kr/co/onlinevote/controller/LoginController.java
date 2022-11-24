@@ -38,9 +38,9 @@ public class LoginController extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String id = req.getParameter("id");
-		String pass = req.getParameter("pass");
+		String password = req.getParameter("password");
 		
-		VoterVO vo = VoterDAO.getInstance().selectVoter(id, pass);
+		VoterVO vo = VoterDAO.getInstance().selectVoter(id, password);
 		
 		if(vo != null) {
 			HttpSession session = req.getSession();

@@ -15,6 +15,8 @@
 		let isEmailAuthCodeOk = false;
 		
 		$(function(){
+			$('.auth').hide();
+			
 			$('input[name=email]').focusout(function(){
 				let email = $(this).val();
 				
@@ -50,8 +52,8 @@
 								
 							}else{
 								isEmailAuthOk = false;
-								$(this).show();
 								alert('We have failed to send the code\nPlease try again');
+								$(this).show();
 							}
 						}
 					});
@@ -98,8 +100,24 @@
 		<header></header>
 		<main>
 			<section class="register">
-				<form action="/OnlineVote/user/registerInfo.do" method="post">
-					<table>
+				<form action="/OnlineVote/voter/register.do" method="post" enctype="multipart/form-data">
+					<table border="1">
+						<tr>
+							<td>Name</td>
+							<td><input type="text" name="name" placeholder="Enter Name"></td>
+						</tr>
+						<tr>
+							<td>Birth</td>
+							<td><input type="text" name="birth" placeholder="Enter Date of Birth(YYYY/MM/DD)"></td>
+						</tr>
+						<tr>
+							<td>File</td>
+							<td><input type="file" name="fname" placeholder="Upload a Picture of Yourself"></td>
+						</tr>
+						<tr>
+							<td>Mobile Number</td>
+							<td><input type="text" name="hp" placeholder="Enter Mobile Number"></td>
+						</tr>
 						<tr>
 							<td>Email</td>
 							<td>
@@ -112,7 +130,16 @@
 								</div>
 							</td>
 						</tr>
+						<tr>
+							<td>ID</td>
+							<td><input type="text" name="id" placeholder="Enter ID"></td>
+						</tr>
+						<tr>
+							<td>Password</td>
+							<td><input type="text" name="password" placeholder="Enter Password"></td>
+						</tr>
 					</table>
+					<input type="submit" value="register">
 				</form>
 			</section>
 		</main>
