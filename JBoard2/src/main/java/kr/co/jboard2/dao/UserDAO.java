@@ -1,11 +1,14 @@
 package kr.co.jboard2.dao;
 
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import kr.co.jboard2.db.DBHelper;
 import kr.co.jboard2.db.SQL;
+import kr.co.jboard2.vo.ArticleVO;
 import kr.co.jboard2.vo.TermsVO;
 import kr.co.jboard2.vo.UserVO;
 

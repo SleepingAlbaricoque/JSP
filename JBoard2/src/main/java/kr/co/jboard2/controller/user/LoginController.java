@@ -66,7 +66,7 @@ public class LoginController extends HttpServlet{
 				dao.updateUserForSession(uid, sessId);
 			}
 			
-			resp.sendRedirect("/JBoard2/list.do");
+			resp.sendRedirect("/JBoard2/list.do?pg=1");
 			
 		}else {
 			// 회원 아님

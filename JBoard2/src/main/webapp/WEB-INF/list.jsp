@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="./_header.jsp"/>
         <main id="board">
             <section class="list">                
@@ -15,25 +16,31 @@
                         <th>글쓴이</th>
                         <th>날짜</th>
                         <th>조회</th>
-                    </tr>                    
-                    <tr>
-                        <td>1</td>
-                        <td><a href="./view.do">테스트 제목입니다.[3]</a></td>
-                        <td>길동이</td>
-                        <td>20-05-12</td>
-                        <td>12</td>
                     </tr>
+                    <c:forEach var="article" items="${articles}">                    
+                    <tr>
+                        <td>${page.pageStartNum = page.pageStartNum -1}</td>
+                        <td><a href="/JBoard2/view.do?no=${article.no}&pg=${page.currentPage}">${article.title}[${article.comment}]</a></td>
+                        <td>${article.nick}</td>
+                        <td>${article.rdate}</td>
+                        <td>${article.hit}</td>
+                    </tr>
+                    </c:forEach>
                 </table>
 
                 <div class="page">
-                    <a href="#" class="prev">이전</a>
-                    <a href="#" class="num current">1</a>
-                    <a href="#" class="num">2</a>
-                    <a href="#" class="num">3</a>
-                    <a href="#" class="next">다음</a>
+                	<c:if test = "${page.pageGroupStart > 1}">
+                    <a href="/JBoard2/list.do?pg=${page.pageGroupStart -1}" class="prev">이전</a>
+                    </c:if>
+                    <c:forEach var="num" begin="${page.pageGroupStart}" end="${page.pageGroupEnd}" step="1">
+                    <a href="/JBoard2/list.do?pg=${num}" class="num ${(num == page.currentPage)? 'current':'off'}">${num}</a>
+                    </c:forEach>
+                    <c:if test = "${page.pageGroupEnd < page.lastPageNum}">
+                    <a href="/JBoard2/list.do?pg=${page.pageGroupEnd +1}" class="next">다음</a>
+                    </c:if>
                 </div>
 
-                <a href="./write.do" class="btn btnWrite">글쓰기</a>
+                <a href="/JBoard2/write.do" class="btn btnWrite">글쓰기</a>
                 
             </section>
         </main>

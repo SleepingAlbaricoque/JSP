@@ -3,7 +3,7 @@
         <main id="board">
             <section class="modify">
 
-                <form action="#">
+                <form action="/JBoard/modify.do" method="post" enctype="multipart/form-data">
                     <table border="0">
                         <caption>글수정</caption>
                         <tr>
