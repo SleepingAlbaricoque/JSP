@@ -36,7 +36,7 @@ public class EmailAuthController extends HttpServlet {
 		
 		// 기본정보
 		String sender = "tnqls0421@gmail.com";
-		String password = "semzvrikbtdgzxfm";
+		String password = ".";
 				
 		String title = "Verification code has been sent to your email\nPlease check your inbox";
 		String content = "Your verification code is "+code+ ".";
