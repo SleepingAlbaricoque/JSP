@@ -23,16 +23,8 @@ public class LoginController extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 로그인 여부에 따라 페이지 이동
-		HttpSession sess = req.getSession();
-		UserVO sessUser = (UserVO) sess.getAttribute("sessUser");
-		
-		if(sessUser != null) {
-			resp.sendRedirect("/JBoard2/user/login.do");
-		}else {	
-			RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/user/login.jsp");
-			dispatcher.forward(req, resp);
-		}
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/user/login.jsp");
+		dispatcher.forward(req, resp);
 	}
 	
 	@Override
