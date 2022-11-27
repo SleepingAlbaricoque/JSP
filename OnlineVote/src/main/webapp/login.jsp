@@ -20,6 +20,9 @@
 					<td colspan="2" align="right"><input type="submit" value="Log In"></td>
 				</tr>
 				<tr>
+					<td colspan="2" align="right"><label><input type="checkbox" name="auto">Remember Me</label></td>
+				</tr>
+				<tr>
 					<td colspan="2" align="center"><a href="/OnlineVote/voter/register.do">Register here</a></td>
 				</tr>
 			</table>
