@@ -173,6 +173,30 @@ public class ArticleDAO extends DBHelper{
 		return total;
 	}
 	
+	public int selectCountTotalForSearch(String keyword) {
+		int total = 0;
+		
+		try {
+			logger.info("selectCountTotal called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.SELECT_COUNT_TOTAL_FOR_SEARCH);
+			psmt.setString(1, "%"+keyword+"%");
+			psmt.setString(2, "%"+keyword+"%");
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				total = rs.getInt(1);
+			}
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("total: " + total);
+		return total;
+	}
+	
 	public List<ArticleVO> selectComments(String no) {
 		List<ArticleVO> comments = new ArrayList<>();
 		try {
@@ -206,6 +230,44 @@ public class ArticleDAO extends DBHelper{
 		}
 		logger.debug("comments: " + comments);
 		return comments;
+	}
+	
+	public List<ArticleVO> selectArticleByKeyword(String keyword, int start) {
+		List<ArticleVO> articles = new ArrayList<>();
+		
+		try{
+			logger.info("selectArticleByKeyword called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.SELECT_ARTICLE_BY_KEYWORD);
+			psmt.setString(1, "%"+keyword+"%");
+			psmt.setString(2, "%"+keyword+"%");
+			psmt.setInt(3, start);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				ArticleVO article = new ArticleVO();
+				article.setNo(rs.getInt(1));
+				article.setParent(rs.getInt(2));
+				article.setComment(rs.getInt(3));
+				article.setCate(rs.getString(4));
+				article.setTitle(rs.getString(5));
+				article.setContent(rs.getString(6));
+				article.setFile(rs.getInt(7));
+				article.setHit(rs.getInt(8));
+				article.setUid(rs.getString(9));
+				article.setRegip(rs.getString(10));
+				article.setRdate(rs.getString(11).substring(2, 10));
+				article.setNick(rs.getString(12));
+				
+				articles.add(article);
+			}
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		return articles;
 	}
 	
 	//update

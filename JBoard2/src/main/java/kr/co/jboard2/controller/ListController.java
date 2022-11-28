@@ -29,6 +29,7 @@ public class ListController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String pg = req.getParameter("pg");
+		String search = req.getParameter("search");
 		int currentPage =1;
 		int start;
 		int currentPageGroup = 0;
@@ -45,7 +46,11 @@ public class ListController extends HttpServlet{
 		
 		
 		// 전체 게시물 갯수
-		total = service.selectCountTotal();
+		if(search == null) {
+			total = service.selectCountTotal();
+		}else {
+			total = service.selectCountTotalForSearch(search);
+		}
 		
 		// 마지막 페이지 번호
 		int lastPageNum = service.getLastPageNum(total);
@@ -65,8 +70,14 @@ public class ListController extends HttpServlet{
 		page.setPageGroupEnd(result[2]);
 		page.setPageStartNum(pageStartNum+1); // 안그러면 리스트에 뜰 때 첫 번째 글 번호가 0으로 보임(pageStartNum = pageStartNum -1으로 대입해서)
 		req.setAttribute("page", page);
+		req.setAttribute("search", search);
 		
-		List<ArticleVO> articles = service.selectArticles(start);
+		List<ArticleVO> articles = null;
+		if(search == null) {
+			articles = service.selectArticles(start);
+		}else {
+			articles = service.selectArticleByKeyword(search, start);
+		}
 		req.setAttribute("articles", articles);
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/list.jsp");

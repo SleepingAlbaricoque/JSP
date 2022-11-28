@@ -44,6 +44,10 @@ public class SQL {
 	
 	public static final String SELECT_MAX_NO = "select max(`no`) from `board_article`";
 	public static final String SELECT_COUNT_TOTAL = "SELECT COUNT(`no`) FROM `board_article` where `parent`=0";
+	public static final String SELECT_COUNT_TOTAL_FOR_SEARCH = "SELECT COUNT(`no`) FROM `board_article` as a "
+															+ "join `board_user` as b "
+															+ "on a.uid = b.uid "
+															+ "where `parent`=0 and (`title` LIKE ? or `nick` LIKE ?)";
 	public static final String SELECT_ARTICLES = "SELECT a.*, b.`nick` FROM `board_article` AS a "
 			+ "JOIN `board_user` AS b ON a.uid = b.uid "
 			+ "where `parent`=0 "
@@ -64,6 +68,12 @@ public class SQL {
 	public static final String SELECT_COMMENT_LATEST = "SELECT a.*, b.nick FROM `board_article` as a "
 													+ "JOIN `board_user` AS b USING(`uid`) "
 													+ "WHERE parent !=0 ORDER BY `no` DESC LIMIT 1";
+	public static final String SELECT_ARTICLE_BY_KEYWORD = "SELECT a.`*`, b.nick FROM `board_article` AS a "
+														+ "JOIN `board_user` AS b "
+														+ "ON a.uid = b.uid "
+														+ "WHERE `parent`=? AND (`title` LIKE ? OR `uid` LIKE ?) "
+														+ "order by `no` desc "
+														+ "limit ?, 10";
 	
 	public static final String UPDATE_ARTICLE_HIT = "UPDATE `board_article` SET `hit` = `hit` +1 WHERE `no` =?";
 	public static final String UPDATE_ARTICLE_COMMENT = "update `board_article` set `comment` = `comment` + 1 where `no`=?";
