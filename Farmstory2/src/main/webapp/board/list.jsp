@@ -1,5 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
-<jsp:include page="/WEB-INF/_header.jsp"/>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:choose>
+	<c:when test="${null ne sessUser}">
+		<jsp:include page="/user/_header.jsp"/>
+	</c:when>
+	<c:otherwise>
+		<jsp:include page="/WEB-INF/_header.jsp"/>
+	</c:otherwise>
+</c:choose>
 <jsp:include page="./_${group}.jsp"/>
 	<main id="board">
     <section class="list">                

@@ -27,7 +27,7 @@
                     </aside>
                     <article>
                         <nav>
-                            <img src="../img/sub_nav_tit_cate5_<%= cate %>.png" alt="인사말">
+                            <img src="/Farmstory2/img/sub_nav_tit_cate5_<%= cate %>.png" alt="인사말">
                             <p>
                                 HOME > 커뮤니티 >
                                 <% if(cate.equals("notice")){ %> 

@@ -147,8 +147,36 @@ public class UserDAO extends DBHelper{
 		return user;
 	}
 	// update
+	public void updateUserForSession(String uid, String sessId) {
+		try {
+			logger.info("updateForSession called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.UPDATE_USER_FOR_SESSION);
+			psmt.setString(1, sessId);
+			psmt.setString(2, uid);
+			psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
 	
-	
+	public void updateUserForSessionOut(String uid) {
+		try {
+			logger.info("updateUserForSessionOut called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.UPDATE_USER_FOR_SESSION_OUT);
+			psmt.setString(1, uid);
+			psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
 	// delete
 	
 }

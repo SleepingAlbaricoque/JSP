@@ -1,5 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
-<jsp:include page="/WEB-INF/_header.jsp"/>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:choose>
+	<c:when test="${null ne sessUser}">
+		<jsp:include page="/user/_header.jsp"/>
+	</c:when>
+	<c:otherwise>
+		<jsp:include page="/WEB-INF/_header.jsp"/>
+	</c:otherwise>
+</c:choose>
+<script>
+	let success = ${success};
+	if(success == '100'){
+		alert('일치하는 회원 정보가 없습니다');
+	}else if(success == '201'){
+		alert('정상적으로 로그아웃 되었습니다');
+	}
+</script>
         <main id="user">
             <section class="login">
                 <form action="/Farmstory2/user/login.do" method="post">
