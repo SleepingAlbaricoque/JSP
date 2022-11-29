@@ -1,20 +1,21 @@
 package kr.co.farmstory2.controller.user;
 
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonObject;
+
 import kr.co.farmstory2.service.ArticleService;
 import kr.co.farmstory2.service.UserService;
 
-@WebServlet("/user/terms.do")
-public class TermsController extends HttpServlet{
+@WebServlet("/user/checkUid.do")
+public class CheckUidController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	private UserService service = UserService.INSTANCE;
 	
@@ -23,19 +24,16 @@ public class TermsController extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		List<String> terms = service.selectTerms();
-		String conditions = terms.get(0);
-		String privacy = terms.get(1);
+		String uid = req.getParameter("uid");		
+		int result = service.selectCountUid(uid);
 		
-		req.setAttribute("conditions", conditions);
-		req.setAttribute("privacy", privacy);
+		JsonObject json = new JsonObject();
+		json.addProperty("result", result);
 		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/user/terms.jsp");
-		dispatcher.forward(req, resp);
+		PrintWriter printer = resp.getWriter();
+		printer.print(json.toString());
 	}
 	
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-	}
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {}
 }
