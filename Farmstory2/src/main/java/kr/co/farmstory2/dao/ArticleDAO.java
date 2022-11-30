@@ -27,6 +27,26 @@ public class ArticleDAO extends DBHelper{
 	
 	public void selectArticles() {}
 	
+	public int selectCountTotal() {
+		int total = 0;
+		try {
+			logger.info("selectCountTotal called");
+			
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(SQL.SELECT_COUNT_TOTAL);
+			
+			if(rs.next()) {
+				total = rs.getInt(1);
+			}
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("total " + total);
+		return total;
+	}
+	
 	// update
 	public void updateArticle() {}
 	

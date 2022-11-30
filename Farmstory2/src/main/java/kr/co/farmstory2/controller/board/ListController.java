@@ -23,6 +23,24 @@ public class ListController extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String group = req.getParameter("group");
 		String cate = req.getParameter("cate");
+		String pg = req.getParameter("pg");
+		int currentPage = 1;
+		int start;
+		int total = 0;
+		int lastPageNum;
+		
+		if(pg != null) {
+			currentPage = Integer.parseInt(pg);
+		}
+		start = (currentPage - 1)*10;
+		
+		// 전체 게시물 갯수
+		total = service.selectCountTotal();
+		
+		// 마지막 페이지 번호
+		lastPageNum = service.getLastPageNum(total);
+		
+		// 페이지 그룹 스타트, 엔드
 		
 		req.setAttribute("group", group);
 		req.setAttribute("cate", cate);

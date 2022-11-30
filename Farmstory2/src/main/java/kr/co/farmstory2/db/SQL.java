@@ -35,6 +35,8 @@ public class SQL {
 	// board
 		// insert
 		// select
+		public static final String SELECT_COUNT_TOTAL = "select count(`no`) from `board_article` where `parent`=0";
+		
 		// update
 		// delete
 }
