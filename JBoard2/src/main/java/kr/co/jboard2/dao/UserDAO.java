@@ -244,8 +244,51 @@ public class UserDAO extends DBHelper{
 		return vo;
 	}
 	
+	public int selectUserByPass(String pass) {
+		int result = 0;
+		
+		try {
+			logger.info("selectUserByPass called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.SELECT_USER_BY_PASS);
+			psmt.setString(1, pass);
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("result " + result);
+		return result;
+	}
+	
 	// update
-	public void updateUser() {}
+	public void updateUser(UserVO user) {
+		try {
+			logger.info("updateUser called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.UPDATE_USER);
+			psmt.setString(1, user.getName());
+			psmt.setString(2, user.getNick());
+			psmt.setString(3, user.getEmail());
+			psmt.setString(4, user.getHp());
+			psmt.setString(5, user.getZip());
+			psmt.setString(6, user.getAddr1());
+			psmt.setString(7, user.getAddr2());
+			psmt.setString(8, user.getUid());
+			psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
 	
 	public int updateUserPass(String uid, String pass) {
 		int result = 0;
@@ -261,6 +304,7 @@ public class UserDAO extends DBHelper{
 		}catch(Exception e) {
 			logger.error(e.getMessage());
 		}
+		logger.debug("result " + result);
 		return result;
 	}
 	
@@ -296,5 +340,18 @@ public class UserDAO extends DBHelper{
 	}
 	
 	// delete
-	public void deleteUser() {}
+	public void deleteUser(String uid) {
+		try {
+			logger.info("deleteUser called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.DELETE_USER);
+			psmt.setString(1, uid);
+			psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
 }

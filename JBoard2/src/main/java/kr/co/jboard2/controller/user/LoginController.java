@@ -23,6 +23,9 @@ public class LoginController extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String success = req.getParameter("success");
+		req.setAttribute("success", success);
+		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/user/login.jsp");
 		dispatcher.forward(req, resp);
 	}
@@ -40,6 +43,11 @@ public class LoginController extends HttpServlet{
 		
 		// 로그인 처리
 		if(vo != null) {
+			/*// 탈퇴한 회원
+			if(vo.getGrade() == 0) {
+				resp.sendRedirect("/JBoard2/user/login.do?success=300");
+			}*/
+			
 			// 회원 맞음
 			HttpSession session = req.getSession(); // 클라이언트(req)의 세션 구함
 			session.setAttribute("sessUser", vo);
@@ -58,7 +66,11 @@ public class LoginController extends HttpServlet{
 				dao.updateUserForSession(uid, sessId);
 			}
 			
-			resp.sendRedirect("/JBoard2/list.do?pg=1");
+			if(vo.getGrade() == 0) {
+				resp.sendRedirect("/JBoard2/user/login.do?success=300");
+			}else {
+				resp.sendRedirect("/JBoard2/list.do?pg=1");
+			}
 			
 		}else {
 			// 회원 아님

@@ -23,10 +23,15 @@ public class SQL {
 	public static final String SELECT_USER_FOR_FIND_ID ="select `uid`, `name`, `email`, `rdate` from `board_user` where `name`=? and `email`=?";
 	public static final String SELECT_USER_FOR_FIND_PW ="select count(`uid`) from `board_user` where `uid`=? and `email`=?";
 	public static final String SELECT_USER_BY_SESSID ="select * from `board_user` where `sessId`=?";
+	public static final String SELECT_USER_BY_PASS = "select count(`pass`) from `board_user` where `pass`=SHA2(?,256)";
 	
 	public static final String UPDATE_USER_PASSWORD = "update `board_user` set `pass`=SHA2(?, 256) where `uid`=? and `sessLimitDate` > NOW()";
 	public static final String UPDATE_USER_FOR_SESSION = "update `board_user` set `sessId`=?, `sessLimitDate`=DATE_ADD(NOW(), INTERVAL 3 DAY) where `uid`=?";
 	public static final String UPDATE_USER_FOR_SESSION_OUT= "update `board_user` set `sessId`=NULL, `sessLimitDate`=NULL where `uid`=?";
+	public static final String UPDATE_USER = "update `board_user` set `name`=?, `nick`=?, `email`=?, `hp`=?, `zip`=?, `addr1`=?, `addr2`=? where `uid`=?";
+	public static final String UPDATE_USER_PASS = "update `board_user` set `pass`=SHA2(?, 256) where `uid`=?";
+	
+	public static final String DELETE_USER= "update `board_user` set `grade`=0, `wdate`=NOW(), `sessId`=NULL, `sessLimitDate`=NULL where `uid`=?";
 	
 	// BOARD
 	public static final String INSERT_ARTICLE = "insert into `board_article` set `title`=?, `content`=?, `file`=?, `uid`=?, `regip`=?, `rdate`=NOW()";

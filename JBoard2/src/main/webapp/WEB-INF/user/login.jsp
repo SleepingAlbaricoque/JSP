@@ -1,5 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="./_header.jsp"/>
+<script>
+	let success = ${success};
+	if(success == '300'){
+		alert('이미 탈퇴한 회원입니다\n다시 가입해주세요');
+	}else if(success == '100'){
+		alert('회원이 아닙니다\n회원으로 가입하세요');
+	}
+</script>
         <main id="user">
             <section class="login">
                 <form action="/JBoard2/user/login.do" method="post">
