@@ -34,9 +34,27 @@ public class SQL {
 	
 	// board
 		// insert
+		public static final String INSERT_COMMENT = "insert into `board_article` set `parent`=?, `content`=?, `uid`=?, `regip`=?, `rdate`=NOW()";
+		
 		// select
-		public static final String SELECT_COUNT_TOTAL = "select count(`no`) from `board_article` where `parent`=0";
+		public static final String SELECT_COUNT_TOTAL = "select count(`no`) from `board_article` where `parent`=0 and `cate`=?";
+		public static final String SELECT_ARTICLES = "select a.*, b.`nick` from `board_article` as a "
+													+ "join `board_user` as b on a.uid = b.uid "
+													+ "where `parent` = 0 and `cate` =? "
+													+ "order by `no` DESC "
+													+ "limit ?, 10";
+		public static final String SELECT_ARTICLE = "select a.*, b.`oriName`, b.`download` from `board_article` as a "
+													+ "join `board_file` as b on a.no = b.parent "
+													+ "where `no`=?";
+		public static final String SELECT_COMMENTS = "select a.*, b.`nick` from `board_article` as a "
+													+ "join `board_user` as b on a.uid = b.uid "
+													+ "where `parent`=?";
+		public static final String SELECT_COMMENT_LATEST = "select a.*, b.`nick` from `board_article` as a "
+														+ "join `board_user` as b on a.uid = b.uid "
+														+ "where `parent`=? order by `no` desc limit 1";
 		
 		// update
+		public static final String UPDATE_ARTICLE_COMMENT = "update `board_article` set `comment` = `comment` +1 where `no`=?";
+		
 		// delete
 }

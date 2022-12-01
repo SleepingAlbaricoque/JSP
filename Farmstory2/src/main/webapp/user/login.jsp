@@ -14,6 +14,8 @@
 		alert('일치하는 회원 정보가 없습니다');
 	}else if(success == '201'){
 		alert('정상적으로 로그아웃 되었습니다');
+	}else if(success == '101'){
+		alert('로그인 후 이용 가능합니다');
 	}
 </script>
         <main id="user">

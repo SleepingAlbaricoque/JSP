@@ -3,6 +3,7 @@ package kr.co.farmstory2.service;
 import java.util.List;
 
 import kr.co.farmstory2.dao.ArticleDAO;
+import kr.co.farmstory2.vo.ArticleVO;
 import kr.co.farmstory2.vo.UserVO;
 
 public enum ArticleService {
@@ -13,21 +14,31 @@ public enum ArticleService {
 	public void insertArticle() {
 		dao.insertArticle();
 	}
+	public ArticleVO insertComment(String parent, String uid, String content, String regip) {
+		return dao.insertComment(parent, uid, content, regip);
+	}
 	
 	// select
-	public void selectArticle() {
-		dao.selectArticle();
+	public ArticleVO selectArticle(String no) {
+		return dao.selectArticle(no);
 	}
-	public void selectArticles() {
-		dao.selectArticles();
+	public List<ArticleVO> selectArticles(int start, String cate) {
+		return dao.selectArticles(start, cate);
 	}
-	public int selectCountTotal() {
-		return dao.selectCountTotal();
+	public int selectCountTotal(String cate) {
+		return dao.selectCountTotal(cate);
+	}
+	public List<ArticleVO> selectComments(String no){
+		return dao.selectComments(no);
 	}
 	
 	// update
 	public void updateArticle() {
 		dao.updateArticle();
+	}
+	
+	public void updateArticleComment(String parent) {
+		dao.updateArticleComment(parent);
 	}
 	
 	// delete
@@ -49,11 +60,15 @@ public enum ArticleService {
 	}
 	
 	// 페이지 그룹 스타트, 엔드
-	public void getPageGroupNum(int currentPage) {
-		int currentPageGroup = (int) Math.ceil(currentPage /10);
+	public int[] getPageGroupNum(int currentPage, int lastPageNum) {
+		int currentPageGroup = (int) Math.ceil(currentPage /10.0);
 		int pageGroupStart = (currentPageGroup -1)*10 + 1;
 		int pageGroupEnd = currentPageGroup *10;
 		
-	
+		if(pageGroupEnd > lastPageNum) {
+			pageGroupEnd = lastPageNum;
+		}
+		int[] result = {currentPageGroup, pageGroupStart, pageGroupEnd};
+		return result;
 	}
 }

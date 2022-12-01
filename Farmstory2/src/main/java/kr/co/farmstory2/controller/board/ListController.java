@@ -1,6 +1,7 @@
 package kr.co.farmstory2.controller.board;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kr.co.farmstory2.service.ArticleService;
+import kr.co.farmstory2.vo.ArticleVO;
 
 @WebServlet("/board/list.do")
 public class ListController extends HttpServlet{
@@ -28,6 +30,10 @@ public class ListController extends HttpServlet{
 		int start;
 		int total = 0;
 		int lastPageNum;
+		int currentPageGroup;
+		int pageGroupStart;
+		int pageGroupEnd;
+		int pageStartNum;
 		
 		if(pg != null) {
 			currentPage = Integer.parseInt(pg);
@@ -35,15 +41,34 @@ public class ListController extends HttpServlet{
 		start = (currentPage - 1)*10;
 		
 		// 전체 게시물 갯수
-		total = service.selectCountTotal();
+		total = service.selectCountTotal(cate);
 		
 		// 마지막 페이지 번호
 		lastPageNum = service.getLastPageNum(total);
 		
 		// 페이지 그룹 스타트, 엔드
+		int[] result = service.getPageGroupNum(currentPage, lastPageNum);
+		currentPageGroup = result[0];
+		pageGroupStart = result[1];
+		pageGroupEnd = result[2];
+		
+		pageStartNum = total - start +1;
+		
+		req.setAttribute("start", start);
+		req.setAttribute("total", total);
+		req.setAttribute("lastPageNum", lastPageNum);
+		req.setAttribute("currentPage", currentPage);
+		req.setAttribute("currentPageGroup", currentPageGroup);
+		req.setAttribute("pageGroupStart", pageGroupStart);
+		req.setAttribute("pageGroupEnd", pageGroupEnd);
+		req.setAttribute("pageStartNum", pageStartNum);
 		
 		req.setAttribute("group", group);
 		req.setAttribute("cate", cate);
+		
+		List<ArticleVO> articles = service.selectArticles(start, cate);
+		
+		req.setAttribute("articles", articles);
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/board/list.jsp");
 		dispatcher.forward(req, resp);
