@@ -44,17 +44,19 @@ public class SQL {
 													+ "order by `no` DESC "
 													+ "limit ?, 10";
 		public static final String SELECT_ARTICLE = "select a.*, b.`oriName`, b.`download` from `board_article` as a "
-													+ "join `board_file` as b on a.no = b.parent "
+													+ "left join `board_file` as b on a.no = b.parent "
 													+ "where `no`=?";
 		public static final String SELECT_COMMENTS = "select a.*, b.`nick` from `board_article` as a "
 													+ "join `board_user` as b on a.uid = b.uid "
-													+ "where `parent`=?";
+													+ "where `parent`=? order by `no` asc";
 		public static final String SELECT_COMMENT_LATEST = "select a.*, b.`nick` from `board_article` as a "
 														+ "join `board_user` as b on a.uid = b.uid "
-														+ "where `parent`=? order by `no` desc limit 1";
+														+ "where `parent`!=0 order by `no` desc limit 1";
 		
 		// update
 		public static final String UPDATE_ARTICLE_COMMENT = "update `board_article` set `comment` = `comment` +1 where `no`=?";
+		public static final String UPDATE_ARTICLE_HIT = "update `board_article` set `hit` = `hit` + 1 where `no`=?";
+		public static final String UPDATE_COMMENT = "update `board_article` set `content`=?, rdate=NOW() where `no`=?";
 		
 		// delete
 }

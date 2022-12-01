@@ -41,6 +41,14 @@ public enum ArticleService {
 		dao.updateArticleComment(parent);
 	}
 	
+	public void updateArticleHit(String no) {
+		dao.updateArticleHit(no);
+	}
+	
+	public int updateComment(String content, String no) {
+		return dao.updateComment(content, no);
+	}
+	
 	// delete
 	public void deleteArticle() {
 		dao.deleteArticle();

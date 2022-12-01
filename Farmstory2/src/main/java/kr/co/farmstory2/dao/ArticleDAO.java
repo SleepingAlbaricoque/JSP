@@ -33,8 +33,8 @@ public class ArticleDAO extends DBHelper{
 			stmt = conn.createStatement();
 			
 			psmt.setString(1, parent);
-			psmt.setString(2, uid);
-			psmt.setString(3, content);
+			psmt.setString(2, content);
+			psmt.setString(3, uid);
 			psmt.setString(4, regip);
 			psmt.executeUpdate();
 			rs = stmt.executeQuery(SQL.SELECT_COMMENT_LATEST);
@@ -155,11 +155,13 @@ public class ArticleDAO extends DBHelper{
 			
 			while(rs.next()) {
 				ArticleVO comment = new ArticleVO();
+				comment.setNo(rs.getInt(1));
 				comment.setContent(rs.getString(6));
-				comment.setRdate(rs.getString(11));
+				comment.setRdate(rs.getString(11).substring(2, 10));
 				comment.setNick(rs.getString(12));
 				comments.add(comment);
 			}
+			close();
 			
 		}catch(Exception e) {
 			logger.error(e.getMessage());
@@ -182,6 +184,38 @@ public class ArticleDAO extends DBHelper{
 		}catch(Exception e) {
 			logger.error(e.getMessage());
 		}
+	}
+	
+	public void updateArticleHit(String no) {
+		try {
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.UPDATE_ARTICLE_HIT);
+			psmt.setString(1, no);
+			psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	public int updateComment(String content, String no) {
+		int result = 0;
+		try {
+			logger.info("updateComment called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.UPDATE_COMMENT);
+			psmt.setString(1, content);
+			psmt.setString(2, no);
+			result = psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("result " + result);
+		return result;
 	}
 	
 	// delete

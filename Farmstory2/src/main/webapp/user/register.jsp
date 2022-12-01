@@ -75,7 +75,7 @@
                     </table>
 
                     <div>
-                        <a href="/JBaord2/user/login.do" class="btn btnCancel">취소</a>
+                        <a href="/Farmstory2/user/login.do" class="btn btnCancel">취소</a>
                         <input type="submit" value="회원가입" class="btn btnRegister"/>
                     </div>
 

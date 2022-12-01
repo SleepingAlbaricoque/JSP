@@ -34,13 +34,14 @@ public class ViewController extends HttpServlet{
 		
 		req.setAttribute("group", group);
 		req.setAttribute("cate", cate);
+		req.setAttribute("no", no);
 		req.setAttribute("pg", pg);
 		
 		ArticleVO article = service.selectArticle(no);
 		req.setAttribute("article", article);
 		
 		// 글 조회 수 올리기
-		
+		service.updateArticleHit(no);
 		
 		// 댓글 불러오기
 		List<ArticleVO> comments = service.selectComments(no);
@@ -61,6 +62,9 @@ public class ViewController extends HttpServlet{
 		String uid = req.getParameter("uid");
 		String content = req.getParameter("content");
 		String regip = req.getRemoteAddr();
+		String group = req.getParameter("group");
+		
+		req.setAttribute("group", group);
 		
 		ArticleVO comment = service.insertComment(parent, uid, content, regip);
 		
