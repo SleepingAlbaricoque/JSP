@@ -31,6 +31,10 @@ public enum UserService {
 	public UserVO selectUser(String uid, String pass) {
 		return dao.selectUser(uid, pass);
 	}
+	public UserVO selectUserBySessId(String sessId) {
+		return dao.selectUserBySessId(sessId);
+	}
+	
 	// update
 	public void updateUserForSession(String uid, String sessId) {
 		dao.updateUserForSession(uid, sessId);

@@ -91,6 +91,27 @@
 				});
 			}
 		});
+		
+		// 댓글 삭제
+		$('.remove').click(function(){
+			let tag = $(this);
+			let result = confirm('정말 삭제하시겠습니까?');
+			
+			if(result){
+				let no = $(this).attr('data-no');
+				
+				$.ajax({
+					url: '/Farmstory2/board/commentDelete.do',
+					method: 'POST',
+					data: {"no":no},
+					dataType: 'json',
+					success: function(data){
+						alert('댓글이 삭제되었습니다');
+						tag.parent().parent().hide();
+					}
+				});
+			}
+		});
 	});
 </script>
 <main id="board">
@@ -105,7 +126,7 @@
             <c:if test="${article.file >0 }">
             <tr>
                 <th>파일</th>
-                <td><a href="#">${article.oriName}</a>&nbsp;<span>${article.download}</span>회 다운로드</td>
+                <td><a href="/Farmstory2/board/download.do?fno=${article.fno}">${article.oriName}</a>&nbsp;<span>${article.download}</span>회 다운로드</td>
             </tr>
             </c:if>
             <tr>
@@ -117,8 +138,10 @@
         </table>
         
         <div>
-            <a href="#" class="btn btnRemove">삭제</a>
-            <a href="/Farmstory2/board/modify.do?group=${group}&cate=${cate}" class="btn btnModify">수정</a>
+        	<c:if test="${sessUser.uid eq article.uid}">
+            <a href="/Farmstory2/board/delete.do?group=${group}&cate=${cate}&no=${no}" class="btn btnRemove">삭제</a>
+            <a href="/Farmstory2/board/modify.do?group=${group}&cate=${cate}&no=${no}&pg=${pg}" class="btn btnModify">수정</a>
+            </c:if>
             <a href="/Farmstory2/board/list.do?group=${group}&cate=${cate}&pg=1" class="btn btnList">목록</a>
         </div>
 

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import kr.co.farmstory2.db.DBHelper;
 import kr.co.farmstory2.db.SQL;
 import kr.co.farmstory2.vo.ArticleVO;
+import kr.co.farmstory2.vo.FileVO;
 import kr.co.farmstory2.vo.UserVO;
 
 public class ArticleDAO extends DBHelper{
@@ -21,7 +22,38 @@ public class ArticleDAO extends DBHelper{
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	// insert
-	public void insertArticle() {}
+	public int insertArticle(ArticleVO article) {
+		int parent = 0;
+		try {
+			logger.info("insertArticle called");
+			
+			conn = getConnection();
+			conn.setAutoCommit(false);
+			
+			stmt = conn.createStatement();
+			psmt = conn.prepareStatement(SQL.INSERT_ARTICLE);
+			psmt.setString(1, article.getCate());
+			psmt.setString(2, article.getTitle());
+			psmt.setString(3, article.getContent());
+			psmt.setInt(4, article.getFname() == null? 0 : 1);
+			psmt.setString(5, article.getUid());
+			psmt.setString(6, article.getRegip());
+			psmt.executeUpdate();
+			
+			rs = stmt.executeQuery(SQL.SELECT_MAX_NO);
+			conn.commit();
+			
+			if(rs.next()) {
+				parent = rs.getInt(1);
+			}
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("parent " + parent);
+		return parent;
+	}
 	
 	public ArticleVO insertComment(String parent, String uid, String content, String regip) {
 		ArticleVO comment = null;
@@ -58,6 +90,23 @@ public class ArticleDAO extends DBHelper{
 		return comment;
 	}
 	
+	public void insertFile(int parent, String newName, String fname) {
+		try {
+			logger.info("insertFile called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.INSERT_FILE);
+			psmt.setInt(1, parent);
+			psmt.setString(2, newName);
+			psmt.setString(3, fname);
+			psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
 	// select
 	public ArticleVO selectArticle(String no) {
 		ArticleVO article = null;
@@ -74,9 +123,12 @@ public class ArticleDAO extends DBHelper{
 				article.setTitle(rs.getString(5));
 				article.setContent(rs.getString(6));
 				article.setFile(rs.getInt(7));
+				article.setUid(rs.getString(9));
 				article.setOriName(rs.getString(12));
 				article.setDownload(rs.getInt(13));
+				article.setFno(rs.getInt(14));
 			}
+			close();
 			
 		}catch(Exception e) {
 			logger.error(e.getMessage());
@@ -114,6 +166,7 @@ public class ArticleDAO extends DBHelper{
 				article.setNick(rs.getString(12));
 				articles.add(article);
 			}
+			close();
 					
 		}catch(Exception e) {
 			logger.error(e.getMessage());
@@ -170,8 +223,49 @@ public class ArticleDAO extends DBHelper{
 		return comments;
 	}
 	
+	public FileVO selectFile(String fno) {
+		FileVO file = null;
+		try {
+			conn = getConnection();
+			psmt = conn.prepareCall(SQL.SELECT_FILE);
+			psmt.setString(1, fno);
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				file = new FileVO();
+				file.setFno(rs.getInt(1));
+				file.setParent(rs.getInt(2));
+				file.setNewName(rs.getString(3));
+				file.setOriName(rs.getString(4));
+				file.setDownload(rs.getInt(5));
+				file.setRdate(rs.getString(6));
+			}
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("file " + file);
+		return file;
+	}
+	
 	// update
-	public void updateArticle() {}
+	public void updateArticle(String title, String content, String no) {
+		try {
+			logger.info("updateArticle called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.UPDATE_ARTICLE);
+			psmt.setString(1, title);
+			psmt.setString(2, content);
+			psmt.setString(3, no);
+			psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
 	
 	public void updateArticleComment(String parent) {
 		try {
@@ -218,6 +312,112 @@ public class ArticleDAO extends DBHelper{
 		return result;
 	}
 	
+	public void updateFileDownload(String fno) {
+		try {
+			logger.info("updateFileDownload called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.UPDATE_FILE_DOWNLOAD);
+			psmt.setString(1, fno);
+			psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	public void updateFile(String no, String newName, String fname) {
+		try {
+			logger.info("updateFile called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.UPDATE_FILE);
+			psmt.setString(1, newName);
+			psmt.setString(2, fname);
+			psmt.setString(3, no);
+			psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	public void updateArticleFile(String no) {
+		try {
+			logger.info("updateArticleFile called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.UPDATE_ARTICLE_FILE);
+			psmt.setString(1, no);
+			psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
 	// delete
-	public void deleteArticle() {}
+	public void deleteArticle(String no) {
+		try {
+			logger.info("deleteArticle called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.DELETE_ARTICLE);
+			psmt.setString(1, no);
+			psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	public int deleteComment(String no) {
+		int result = 0;
+		try {
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.DELETE_COMMENT);
+			psmt.setString(1, no);
+			result = psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("result " + result);
+		return result;
+	}
+	
+	public void deleteComments(String no) {
+		try {
+			logger.info("deleteComments called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.DELETE_COMMENTS);
+			psmt.setString(1, no);
+			psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	public void deleteFile(String no) {
+		try {
+			logger.info("deleteFile called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.DELETE_FILE);
+			psmt.setString(1, no);
+			psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
 }

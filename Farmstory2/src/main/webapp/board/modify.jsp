@@ -4,23 +4,27 @@
 <main id="board">
     <section class="modify">
 
-        <form action="#">
+        <form action="/Farmstory2/board/modify.do" method="post" enctype="multipart/form-data">
+        	<input type="hidden" name="cate" value="${cate}"/>
+        	<input type="hidden" name="group" value="${group}"/>
+        	<input type="hidden" name="no" value="${no}"/>
+        	<input type="hidden" name="uid" value="${sessUser.uid}"/>
             <table border="0">
                 <caption>글수정</caption>
                 <tr>
                     <th>제목</th>
-                    <td><input type="text" name="title" placeholder="제목을 입력하세요."/></td>
+                    <td><input type="text" name="title" value="${article.title}"/></td>
                 </tr>
                 <tr>
                     <th>내용</th>
                     <td>
-                        <textarea name="content"></textarea>
+                        <textarea name="content">${article.content}</textarea>
                     </td>
                 </tr>
                 <tr>
                     <th>파일</th>
                     <td>
-                        <input type="file" name="file"/>
+                        <input type="file" name="fname"/>
                     </td>
                 </tr>
             </table>

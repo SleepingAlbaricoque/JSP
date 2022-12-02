@@ -32,7 +32,7 @@
             <p>
                 <a href="/Farmstory2/">HOME |</a>
                 <a href="/Farmstory2/user/login.do">로그인 |</a>
-                <a href="/Farmstory2/user/register.do">회원가입 |</a>
+                <a href="/Farmstory2/user/terms.do">회원가입 |</a>
                 <a href="#">고객센터</a>
             </p>
             <img src="/Farmstory2/img/head_txt_img.png" alt="3만원 이상 무료배송"/>

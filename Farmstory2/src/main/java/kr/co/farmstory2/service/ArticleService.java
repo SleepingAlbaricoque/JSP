@@ -1,9 +1,20 @@
 package kr.co.farmstory2.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import kr.co.farmstory2.dao.ArticleDAO;
 import kr.co.farmstory2.vo.ArticleVO;
+import kr.co.farmstory2.vo.FileVO;
 import kr.co.farmstory2.vo.UserVO;
 
 public enum ArticleService {
@@ -11,11 +22,14 @@ public enum ArticleService {
 	private ArticleDAO dao = ArticleDAO.getInstance();
 	
 	// insert
-	public void insertArticle() {
-		dao.insertArticle();
+	public int insertArticle(ArticleVO article) {
+		return dao.insertArticle(article);
 	}
 	public ArticleVO insertComment(String parent, String uid, String content, String regip) {
 		return dao.insertComment(parent, uid, content, regip);
+	}
+	public void insertFile(int parent, String newName, String fname) {
+		dao.insertFile(parent, newName, fname);
 	}
 	
 	// select
@@ -31,10 +45,12 @@ public enum ArticleService {
 	public List<ArticleVO> selectComments(String no){
 		return dao.selectComments(no);
 	}
-	
+	public FileVO selectFile(String fno) {
+		return dao.selectFile(fno);
+	}
 	// update
-	public void updateArticle() {
-		dao.updateArticle();
+	public void updateArticle(String title, String content, String no) {
+		dao.updateArticle(title, content, no);
 	}
 	
 	public void updateArticleComment(String parent) {
@@ -49,9 +65,33 @@ public enum ArticleService {
 		return dao.updateComment(content, no);
 	}
 	
+	public void updateFileDownload(String fno) {
+		dao.updateFileDownload(fno);
+	}
+	
+	public void updateFile(String no, String newName, String fname) {
+		dao.updateFile(no, newName, fname);
+	}
+	
+	public void updateArticleFile(String no) {
+		dao.updateArticleFile(no);
+	}
+	
 	// delete
-	public void deleteArticle() {
-		dao.deleteArticle();
+	public void deleteArticle(String no) {
+		dao.deleteArticle(no);
+	}
+	
+	public int deleteComment(String no) {
+		return dao.deleteComment(no);
+	}
+	
+	public void deleteComments(String no) {
+		dao.deleteComments(no);
+	}
+	
+	public void deleteFile(String no) {
+		dao.deleteFile(no);
 	}
 	
 	// list
@@ -79,4 +119,28 @@ public enum ArticleService {
 		int[] result = {currentPageGroup, pageGroupStart, pageGroupEnd};
 		return result;
 	}
+	
+	// file
+	public MultipartRequest uploadFile(HttpServletRequest req, String path) throws IOException{
+		int maxSize = 1024 * 1024* 10;
+		
+		return new MultipartRequest(req, path, maxSize, "UTF-8", new DefaultFileRenamePolicy());
+	}
+	
+	public String renameFile(ArticleVO article, String path) {
+		int idx = article.getFname().lastIndexOf(".");
+		String ext = article.getFname().substring(idx);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss_");
+		String now = sdf.format(new Date());
+		String newName = now + article.getUid() + ext;
+		
+		File oriFile = new File(path+"/"+article.getFname());
+		File newFile = new File(path+"/"+newName);
+		oriFile.renameTo(newFile);
+		
+		return newName;
+	}
+	
+	
 }
