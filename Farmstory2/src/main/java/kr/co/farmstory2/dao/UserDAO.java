@@ -138,6 +138,7 @@ public class UserDAO extends DBHelper{
 				user.setAddr2(rs.getString(10));
 				user.setRegip(rs.getString(11));
 				user.setRdate(rs.getString(12));
+				user.setWdate(rs.getString(15));
 			}
 			close();
 			

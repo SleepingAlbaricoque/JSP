@@ -16,6 +16,8 @@
 		alert('정상적으로 로그아웃 되었습니다');
 	}else if(success == '101'){
 		alert('로그인 후 이용 가능합니다');
+	}else if(success == '111'){
+		alert('이미 탈퇴한 회원입니다\n 다시 회원가입을 진행해 주세요');
 	}
 </script>
         <main id="user">

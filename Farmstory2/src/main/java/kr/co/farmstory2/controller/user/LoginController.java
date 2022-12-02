@@ -42,8 +42,8 @@ public class LoginController extends HttpServlet{
 		String auto = req.getParameter("auto");
 		
 		UserVO user = service.selectUser(uid, pass);
-		
-		if(user !=null) {
+			
+		if(user !=null && user.getWdate() == null) {
 			HttpSession session = req.getSession();
 			session.setAttribute("sessUser", user);
 			
@@ -60,9 +60,11 @@ public class LoginController extends HttpServlet{
 			}
 			
 			resp.sendRedirect("/Farmstory2/index.do"); // list.do로 가게 해야 함
-			
+		}else if(user !=null && user.getWdate() != null){ // 탈퇴한 회원 막기; 이런 식으로 if-else if문 작성해야 success 111값은 보내지만 sessUser는 생성되는 일 막을 수 있음
+			resp.sendRedirect("/Farmstory2/user/login.do?success=111");
 		}else {
 			resp.sendRedirect("/Farmstory2/user/login.do?success=100");
 		}
+		
 	}
 }
