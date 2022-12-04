@@ -38,7 +38,8 @@
             <a href="/Farmstory2/index.jsp" class="logo"><img src="/Farmstory2/img/logo.png" alt="로고"/></a>
             <p>
                 <a href="/Farmstory2/">HOME |</a>
-                <span>${sessionScope.sessUser.nick}</span>님 반갑습니다
+                <span>${sessionScope.sessUser.nick}</span>님 반갑습니다 
+                <a href="/Farmstory2/user/info.do"> 회원정보</a>
                 <a href="/Farmstory2/user/logout.do?uid=${sessUser.uid}">[로그아웃] |</a>
                 <a href="#">고객센터</a>
             </p>

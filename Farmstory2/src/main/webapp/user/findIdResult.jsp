@@ -7,19 +7,19 @@
                         <caption>아이디 찾기 결과</caption>
                         <tr>
                             <td>이름</td>
-                            <td>.</td>
+                            <td>${sessUserForFindId.name}</td>
                         </tr>
                         <tr>
                             <td>아이디</td>
-                            <td>.</td>
+                            <td>${sessUserForFindId.uid}</td>
                         </tr>
                         <tr>
                             <td>이메일</td>
-                            <td>.</td>
+                            <td>${sessUserForFindId.email}</td>
                         </tr>
                         <tr>
                             <td>가입일</td>
-                            <td>.</td>
+                            <td>${sessUserForFindId.rdate}</td>
                         </tr>
                     </table>                                        
                 </form>

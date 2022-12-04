@@ -183,6 +183,56 @@ public class UserDAO extends DBHelper{
 		return vo;
 	}
 	
+	public UserVO selectUserForFindId(String name, String email) {
+		UserVO user = null;
+		try {
+			logger.info("selectUserForFindId called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.SELECT_USER_FOR_FIND_ID);
+			psmt.setString(1, name);
+			psmt.setString(2, email);
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				user = new UserVO();
+				user.setUid(rs.getString(1));
+				user.setName(rs.getString(3));
+				user.setEmail(rs.getString(5));
+				user.setRdate(rs.getString(12).substring(2, 10));
+			}
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("user " + user);
+		return user;
+	}
+	
+	public int selectUserForFindPw(String uid, String email) {
+		int result = 0;
+		try {
+			logger.info("selectUserForFindPw called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.SELECT_USER_FOR_FIND_PW);
+			psmt.setString(1, uid);
+			psmt.setString(2, email);
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("result " +result);
+		return result;
+	}
+	
 	// update
 	public void updateUserForSession(String uid, String sessId) {
 		try {
@@ -213,6 +263,25 @@ public class UserDAO extends DBHelper{
 		}catch(Exception e) {
 			logger.error(e.getMessage());
 		}
+	}
+	
+	public int updatePass(String uid, String pass) {
+		int result =0;
+		try {
+			logger.info("updatePass called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.UPDATE_PASS);
+			psmt.setString(1, pass);
+			psmt.setString(2, uid);
+			result = psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("result: " + result);
+		return result;
 	}
 	// delete
 	

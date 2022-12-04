@@ -26,10 +26,13 @@ public class SQL {
 		public static final String SELECT_COUNT_NICK = "select count(`nick`) from `board_user` where `nick`=?";
 		public static final String SELECT_USER = "select * from `board_user` where `uid`=? and `pass`=SHA2(?,256)";
 		public static final String SELECT_USER_BY_SESSID = "select * from `board_user` where `sessId`=?";
+		public static final String SELECT_USER_FOR_FIND_ID = "select * from `board_user` where `name`=? and `email`=?";
+		public static final String SELECT_USER_FOR_FIND_PW = "select count(`pass`) from `board_user` where `uid`=? and `email`=?";
 		
 		// update
 		public static final String UPDATE_USER_FOR_SESSION = "update `board_user` set `sessId`=?, `sessLimitDate`=DATE_ADD(NOW(), INTERVAL 3 DAY) where `uid`=?";
 		public static final String UPDATE_USER_FOR_SESSION_OUT = "update `board_user` set `sessId`=NULL, `sessLimitDate`=NULL where `uid`=?";
+		public static final String UPDATE_PASS = "update `board_user` set `pass`=SHA2(?, 256) where `uid`=?";
 		
 		// delete
 	
