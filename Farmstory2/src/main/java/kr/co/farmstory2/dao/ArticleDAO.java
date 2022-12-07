@@ -249,6 +249,57 @@ public class ArticleDAO extends DBHelper{
 		return file;
 	}
 	
+	public List<ArticleVO> selectLatest(){
+		List<ArticleVO> latestArticles = new ArrayList<>();
+		try {
+			logger.info("selectLatest called");
+			
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(SQL.SELECT_LATEST);
+			
+			while(rs.next()) {
+				ArticleVO article = new ArticleVO();
+				article.setNo(rs.getInt(1));
+				article.setTitle(rs.getString(2));
+				article.setRdate(rs.getString(3).substring(2, 10));
+				latestArticles.add(article);
+			}
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("latestArticles " + latestArticles);
+		return latestArticles;
+	}
+	
+	public List<ArticleVO> selectLatest(String cate){
+		List<ArticleVO> latestArticles = new ArrayList<>();
+		try {
+			logger.info("selectLatestForTab called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.SELECT_LATEST_BY_CATE);
+			psmt.setString(1, cate);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				ArticleVO article = new ArticleVO();
+				article.setNo(rs.getInt(1));
+				article.setTitle(rs.getString(2));
+				article.setRdate(rs.getString(3).substring(2, 10));
+				latestArticles.add(article);
+			}
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("latestArticles " + latestArticles);
+		return latestArticles;
+	}
+	
 	// update
 	public void updateArticle(String title, String content, String no) {
 		try {

@@ -8,6 +8,17 @@
 		<jsp:include page="/WEB-INF/_header.jsp"/>
 	</c:otherwise>
 </c:choose>
+<script>
+	$(function(){
+		$.get('/Farmstory2/board/getLatest.do?cate=notice', function(data){
+			console.log(data);
+			for(let latest of data){
+				let url = "/Farmstory2/board/view.do?group=community&cate=notice&pg=1&no=" + latest.no;
+				$('#tabs-1 .txt').append("<li><a href='"+url+"'>. "+latest.title+"</a></li>");
+			}
+		});
+	});
+</script>
         <main>
             <div class="slider">
                 <ul>
@@ -26,102 +37,48 @@
             </div>
 
             <div class="quick">
-                <a href="#"><img src="/Farmstory2/img/main_banner_sub1_tit.png" alt="오늘의 식단"></a>
-                <a href="#"><img src="/Farmstory2/img/main_banner_sub2_tit.png" alt="나도 요리사"></a>                
+                <a href="/Farmstory2/board/list.do?group=community&cate=menu"><img src="/Farmstory2/img/main_banner_sub1_tit.png" alt="오늘의 식단"></a>
+                <a href="/Farmstory2/board/list.do?group=community&cate=chef"><img src="/Farmstory2/img/main_banner_sub2_tit.png" alt="나도 요리사"></a>                
             </div>
 
             <div class="latest">
                 <div>
-                    <a href="#"><img src="/Farmstory2/img/main_latest1_tit.png" alt="텃밭 가꾸기"/></a>
+                    <a href="/Farmstory2/board/list.do?group=croptalk&cate=grow"><img src="/Farmstory2/img/main_latest1_tit.png" alt="텃밭 가꾸기"/></a>
                     <img src="/Farmstory2/img/main_latest1_img.jpg" alt="이미지"/>
                     <table border="0">
-                        <tr>
-                            <td>></td>
-                            <td><a href="#">토마토! 건강하게 길러서 안심하고 먹자</a></td>
-                            <td>20-12-22</td>
-                        </tr>
-                        <tr>
-                            <td>></td>
-                            <td><a href="#">토마토! 건강하게 길러서 안심하고 먹자</a></td>
-                            <td>20-12-22</td>
-                        </tr>
-                        <tr>
-                            <td>></td>
-                            <td><a href="#">토마토! 건강하게 길러서 안심하고 먹자</a></td>
-                            <td>20-12-22</td>
-                        </tr>
-                        <tr>
-                            <td>></td>
-                            <td><a href="#">토마토! 건강하게 길러서 안심하고 먹자</a></td>
-                            <td>20-12-22</td>
-                        </tr>
-                        <tr>
-                            <td>></td>
-                            <td><a href="#">토마토! 건강하게 길러서 안심하고 먹자</a></td>
-                            <td>20-12-22</td>
-                        </tr>
+                    	<c:forEach var="article" items="${latestArticles}" begin="0" end="4" step="1">
+	                        <tr>
+	                            <td>></td>
+	                            <td><a href="/Farmstory2/board/view.do?group=croptalk&cate=grow&pg=1&no=${article.no}">${article.title}</a></td>
+	                            <td>${article.rdate}</td>
+	                        </tr>
+						</c:forEach>
                     </table>
                 </div>
                 <div>
-                    <a href="#"><img src="/Farmstory2/img/main_latest2_tit.png" alt="귀농학교"/></a>
+                    <a href="/Farmstory2/board/list.do?group=croptalk&cate=school"><img src="/Farmstory2/img/main_latest2_tit.png" alt="귀농학교"/></a>
                     <img src="/Farmstory2/img/main_latest2_img.jpg" alt="이미지"/>
                     <table border="0">
-                        <tr>
-                            <td>></td>
-                            <td><a href="#">토마토! 건강하게 길러서 안심하고 먹자</a></td>
-                            <td>20-12-22</td>
-                        </tr>
-                        <tr>
-                            <td>></td>
-                            <td><a href="#">토마토! 건강하게 길러서 안심하고 먹자</a></td>
-                            <td>20-12-22</td>
-                        </tr>
-                        <tr>
-                            <td>></td>
-                            <td><a href="#">토마토! 건강하게 길러서 안심하고 먹자</a></td>
-                            <td>20-12-22</td>
-                        </tr>
-                        <tr>
-                            <td>></td>
-                            <td><a href="#">토마토! 건강하게 길러서 안심하고 먹자</a></td>
-                            <td>20-12-22</td>
-                        </tr>
-                        <tr>
-                            <td>></td>
-                            <td><a href="#">토마토! 건강하게 길러서 안심하고 먹자</a></td>
-                            <td>20-12-22</td>
-                        </tr>
+                    	<c:forEach var="article" items="${latestArticles}" begin="5" end="9" step="1">
+	                        <tr>
+	                            <td>></td>
+	                            <td><a href="/Farmstory2/board/view.do?group=croptalk&cate=school&pg=1&no=${article.no}">${article.title}</a></td>
+	                            <td>${article.rdate}</td>
+	                        </tr>
+                        </c:forEach>
                     </table>
                 </div>
                 <div>
-                    <a href="#"><img src="/Farmstory2/img/main_latest3_tit.png" alt="농작물 이야기"/></a>
+                    <a href="/Farmstory2/board/list.do?group=croptalk&cate=story"><img src="/Farmstory2/img/main_latest3_tit.png" alt="농작물 이야기"/></a>
                     <img src="/Farmstory2/img/main_latest3_img.jpg" alt="이미지"/>
                     <table border="0">
-                        <tr>
-                            <td>></td>
-                            <td><a href="#">토마토! 건강하게 길러서 안심하고 먹자</a></td>
-                            <td>20-12-22</td>
-                        </tr>
-                        <tr>
-                            <td>></td>
-                            <td><a href="#">토마토! 건강하게 길러서 안심하고 먹자</a></td>
-                            <td>20-12-22</td>
-                        </tr>
-                        <tr>
-                            <td>></td>
-                            <td><a href="#">토마토! 건강하게 길러서 안심하고 먹자</a></td>
-                            <td>20-12-22</td>
-                        </tr>
-                        <tr>
-                            <td>></td>
-                            <td><a href="#">토마토! 건강하게 길러서 안심하고 먹자</a></td>
-                            <td>20-12-22</td>
-                        </tr>
-                        <tr>
-                            <td>></td>
-                            <td><a href="#">토마토! 건강하게 길러서 안심하고 먹자</a></td>
-                            <td>20-12-22</td>
-                        </tr>
+                    	<c:forEach var="article" items="${latestArticles}" begin="10" end="14" step="1">
+	                        <tr>
+	                            <td>></td>
+	                            <td><a href="/Farmstory2/board/view.do?group=croptalk&cate=story&pg=1&no=${article.no}">${article.title}</a></td>
+	                            <td>${article.rdate}</td>
+	                        </tr>
+                        </c:forEach>
                     </table>
                 </div>
                 
@@ -140,8 +97,8 @@
                         </p>
                     </div>
                     <div class="btns">
-                        <a href="#"><img src="/Farmstory2/img/main_sub2_cs_bt1.png" alt="1:1 고객문의"></a>
-                        <a href="#"><img src="/Farmstory2/img/main_sub2_cs_bt2.png" alt="자주묻는질문"></a>
+                        <a href="/Farmstory2/board/list.do?group=community&cate=qna"><img src="/Farmstory2/img/main_sub2_cs_bt1.png" alt="1:1 고객문의"></a>
+                        <a href="/Farmstory2/board/list.do?group=community&cate=faq"><img src="/Farmstory2/img/main_sub2_cs_bt2.png" alt="자주묻는질문"></a>
                         <a href="#"><img src="/Farmstory2/img/main_sub2_cs_bt3.png" alt="배송조회"></a>
                     </div>
                 </div>
@@ -164,23 +121,17 @@
                         </ul>
                         <div id="tabs-1">
                             <ul class="txt">
-                                <li><a href="#">· 홈페이지 오픈 기념 이벤트를 진행합니다.</a></li>
-                                <li><a href="#">· 홈페이지 오픈 기념 이벤트를 진행합니다.</a></li>
-                                <li><a href="#">· 홈페이지 오픈 기념 이벤트를 진행합니다.</a></li>
+                               
                             </ul>
                         </div>
                         <div id="tabs-2">
                             <ul class="txt">
-                                <li><a href="#">· 홈페이지 이용 관련 불편사항을 들려주세요.</a></li>
-                                <li><a href="#">· 홈페이지 이용 관련 불편사항을 들려주세요.</a></li>
-                                <li><a href="#">· 홈페이지 이용 관련 불편사항을 들려주세요.</a></li>
+                               <img src="./img/loading_icon.gif" class="loading">
                             </ul>
                         </div>
                         <div id="tabs-3">
                             <ul class="txt">
-                                <li><a href="#">· 홈페이지를 오픈하였습니다.</a></li>
-                                <li><a href="#">· 홈페이지를 오픈하였습니다.</a></li>
-                                <li><a href="#">· 홈페이지를 오픈하였습니다.</a></li>
+                               <img src="./img/loading_icon.gif" class="loading">
                             </ul>
                         </div>
                     </div>

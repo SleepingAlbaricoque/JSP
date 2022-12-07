@@ -48,6 +48,12 @@ public enum ArticleService {
 	public FileVO selectFile(String fno) {
 		return dao.selectFile(fno);
 	}
+	public List<ArticleVO> selectLatest(){
+		return dao.selectLatest();
+	}
+	public List<ArticleVO> selectLatest(String cate){
+		return dao.selectLatest(cate);
+	}
 	// update
 	public void updateArticle(String title, String content, String no) {
 		dao.updateArticle(title, content, no);

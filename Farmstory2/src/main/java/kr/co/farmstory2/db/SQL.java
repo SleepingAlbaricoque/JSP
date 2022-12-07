@@ -33,8 +33,10 @@ public class SQL {
 		public static final String UPDATE_USER_FOR_SESSION = "update `board_user` set `sessId`=?, `sessLimitDate`=DATE_ADD(NOW(), INTERVAL 3 DAY) where `uid`=?";
 		public static final String UPDATE_USER_FOR_SESSION_OUT = "update `board_user` set `sessId`=NULL, `sessLimitDate`=NULL where `uid`=?";
 		public static final String UPDATE_PASS = "update `board_user` set `pass`=SHA2(?, 256) where `uid`=?";
+		public static final String UPDATE_USER = "update `board_user` set `name`=?, `nick`=?, `email`=?, `hp`=?, `zip`=?, `addr1`=?, `addr2`=? where `uid`=?";
 		
 		// delete
+		public static final String DELETE_USER = "update `board_user` set `grade`=5, `sessId`=NULL, `sessLimitDate`=NULL, `wdate`=NOW() where `uid`=?";
 	
 	// board
 		// insert
@@ -60,6 +62,12 @@ public class SQL {
 														+ "where `parent`!=0 order by `no` desc limit 1";
 		public static final String SELECT_MAX_NO = "select max(`no`) from `board_article`";
 		public static final String SELECT_FILE = "select * from `board_file` where `fno`=?";
+		public static final String SELECT_LATEST = "(SELECT `no`, `title`, `rdate` FROM `board_article` WHERE `cate`='grow' ORDER BY `no` DESC LIMIT 5) "
+												+ "UNION "
+												+ "(SELECT `no`, `title`, `rdate` FROM `board_article` WHERE `cate`='school' ORDER BY `no` DESC LIMIT 5) "
+												+ "UNION "
+												+ "(SELECT `no`, `title`, `rdate` FROM `board_article` WHERE `cate`='story' ORDER BY `no` DESC LIMIT 5)";
+		public static final String SELECT_LATEST_BY_CATE = "select `no`, `title`, `rdate` from `board_article` where `cate`=? order by `no` desc limit 3";
 		
 		// update
 		public static final String UPDATE_ARTICLE_COMMENT = "update `board_article` set `comment` = `comment` +1 where `no`=?";

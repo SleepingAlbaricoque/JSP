@@ -283,6 +283,48 @@ public class UserDAO extends DBHelper{
 		logger.debug("result: " + result);
 		return result;
 	}
-	// delete
 	
+	public int updateUser(UserVO user) {
+		int result = 0;
+		try {
+			logger.info("updateUser called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.UPDATE_USER);
+			psmt.setString(1, user.getName());
+			psmt.setString(2, user.getNick());
+			psmt.setString(3, user.getEmail());
+			psmt.setString(4, user.getHp());
+			psmt.setString(5, user.getZip());
+			psmt.setString(6, user.getAddr1());
+			psmt.setString(7, user.getAddr2());
+			psmt.setString(8, user.getUid());
+			result = psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("result : " +result);
+		return result;
+	}
+	
+	// delete
+	public int deleteUser(String uid) {
+		int result = 0;
+		try {
+			logger.info("deleteUser called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.DELETE_USER);
+			psmt.setString(1, uid);
+			result = psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("result " + result);
+		return result;
+	}
 }

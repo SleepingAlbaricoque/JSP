@@ -1,33 +1,39 @@
-package kr.co.farmstory2.controller;
+package kr.co.farmstory2.controller.board;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import kr.co.farmstory2.service.ArticleService;
 import kr.co.farmstory2.vo.ArticleVO;
 
-@WebServlet("/index.do")
-public class IndexController extends HttpServlet{
+@WebServlet("/board/getLatest.do")
+public class GetLatestForTabController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	private ArticleService service = ArticleService.INSTANCE;
-
+	
 	@Override
 	public void init() throws ServletException {}
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		List<ArticleVO> latestArticles = service.selectLatest();
-		req.setAttribute("latestArticles", latestArticles);
+		String cate = req.getParameter("cate");
 		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/index.jsp");
-		dispatcher.forward(req, resp);
+		List<ArticleVO> articlesForTabs = service.selectLatest(cate);
+		
+		Gson gson = new Gson();
+		String jsonData = gson.toJson(articlesForTabs);
+		
+		PrintWriter writer = resp.getWriter();
+		writer.print(jsonData);
 	}
 	
 	@Override

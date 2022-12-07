@@ -56,5 +56,12 @@ public enum UserService {
 		return dao.updatePass(uid, pass);
 	}
 	
+	public int updateUser(UserVO user) {
+		return dao.updateUser(user);
+	}
+	
 	// delete
+	public int deleteUser(String uid) {
+		return dao.deleteUser(uid);
+	}
 }
