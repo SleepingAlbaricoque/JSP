@@ -26,6 +26,8 @@ public class ListController extends HttpServlet{
 		String group = req.getParameter("group");
 		String cate = req.getParameter("cate");
 		String pg = req.getParameter("pg");
+		String search = req.getParameter("search");
+		String searchOption = req.getParameter("searchOption");
 		int currentPage = 1;
 		int start;
 		int total = 0;
@@ -66,8 +68,12 @@ public class ListController extends HttpServlet{
 		req.setAttribute("group", group);
 		req.setAttribute("cate", cate);
 		
-		List<ArticleVO> articles = service.selectArticles(start, cate);
-		
+		List<ArticleVO> articles = null;
+		if(search == null) {
+			articles = service.selectArticles(start, cate);
+		}else {
+			articles = service.selectArticlesByKeyword(cate, searchOption, search, start);
+		}
 		req.setAttribute("articles", articles);
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/board/list.jsp");

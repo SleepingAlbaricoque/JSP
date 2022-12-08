@@ -54,6 +54,9 @@ public enum ArticleService {
 	public List<ArticleVO> selectLatest(String cate){
 		return dao.selectLatest(cate);
 	}
+	public List<ArticleVO> selectArticlesByKeyword(String cate, String searchOption, String search, int start){
+		return dao.selectArticlesByKeyword(cate, searchOption, search, start);
+	}
 	// update
 	public void updateArticle(String title, String content, String no) {
 		dao.updateArticle(title, content, no);

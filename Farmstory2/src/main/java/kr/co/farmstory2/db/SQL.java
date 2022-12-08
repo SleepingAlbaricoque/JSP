@@ -68,6 +68,18 @@ public class SQL {
 												+ "UNION "
 												+ "(SELECT `no`, `title`, `rdate` FROM `board_article` WHERE `cate`='story' ORDER BY `no` DESC LIMIT 5)";
 		public static final String SELECT_LATEST_BY_CATE = "select `no`, `title`, `rdate` from `board_article` where `cate`=? order by `no` desc limit 3";
+		public static final String SELECT_ARTICLES_BY_KEYWORD = "SELECT a.*, b.nick FROM `board_article` AS a "
+															+ "JOIN `board_user` AS b "
+															+ "ON a.uid = b.uid "
+															+ "WHERE `parent`=0 AND `cate`=? and `title` like ? "
+															+ "order by `no` desc "
+															+ "limit ?, 10";
+		public static final String SELECT_ARTICLES_BY_NICK = "SELECT a.*, b.nick FROM `board_article` AS a "
+															+ "JOIN `board_user` AS b "
+															+ "ON a.uid = b.uid "
+															+ "WHERE `parent`=0 AND `cate`=? and `nick` like ? "
+															+ "order by `no` desc "
+															+ "limit ?, 10";
 		
 		// update
 		public static final String UPDATE_ARTICLE_COMMENT = "update `board_article` set `comment` = `comment` +1 where `no`=?";

@@ -13,10 +13,29 @@
 		$.get('/Farmstory2/board/getLatest.do?cate=notice', function(data){
 			console.log(data);
 			for(let latest of data){
+				console.log(latest);
 				let url = "/Farmstory2/board/view.do?group=community&cate=notice&pg=1&no=" + latest.no;
 				$('#tabs-1 .txt').append("<li><a href='"+url+"'>. "+latest.title+"</a></li>");
 			}
-		});
+		}, 'json');
+		
+		$.get('/Farmstory2/board/getLatest.do?cate=qna', function(data){
+			console.log(data);
+			for(let latest of data){
+				console.log(latest);
+				let url = "/Farmstory2/board/view.do?group=community&cate=qna&pg=1&no=" + latest.no;
+				$('#tabs-2 .txt').append("<li><a href='"+url+"'>. "+latest.title+"</a></li>");
+			}
+		}, 'json');
+		
+		$.get('/Farmstory2/board/getLatest.do?cate=faq', function(data){
+			console.log(data);
+			for(let latest of data){
+				console.log(latest);
+				let url = "/Farmstory2/board/view.do?group=community&cate=faq&pg=1&no=" + latest.no;
+				$('#tabs-3 .txt').append("<li><a href='"+url+"'>. "+latest.title+"</a></li>");
+			}
+		}, 'json');
 	});
 </script>
         <main>
@@ -121,17 +140,14 @@
                         </ul>
                         <div id="tabs-1">
                             <ul class="txt">
-                               
                             </ul>
                         </div>
                         <div id="tabs-2">
                             <ul class="txt">
-                               <img src="./img/loading_icon.gif" class="loading">
                             </ul>
                         </div>
                         <div id="tabs-3">
                             <ul class="txt">
-                               <img src="./img/loading_icon.gif" class="loading">
                             </ul>
                         </div>
                     </div>

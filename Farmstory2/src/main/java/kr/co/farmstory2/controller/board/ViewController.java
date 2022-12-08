@@ -36,7 +36,7 @@ public class ViewController extends HttpServlet{
 		req.setAttribute("cate", cate);
 		req.setAttribute("no", no);
 		req.setAttribute("pg", pg);
-		
+				
 		ArticleVO article = service.selectArticle(no);
 		req.setAttribute("article", article);
 		
@@ -65,6 +65,7 @@ public class ViewController extends HttpServlet{
 		String group = req.getParameter("group");
 		
 		req.setAttribute("group", group);
+		resp.setCharacterEncoding("UTF-8");
 		
 		ArticleVO comment = service.insertComment(parent, uid, content, regip);
 		

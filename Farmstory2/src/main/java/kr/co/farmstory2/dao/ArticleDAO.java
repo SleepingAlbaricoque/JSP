@@ -296,8 +296,53 @@ public class ArticleDAO extends DBHelper{
 		}catch(Exception e) {
 			logger.error(e.getMessage());
 		}
-		logger.debug("latestArticles " + latestArticles);
+		logger.debug("latestArticles size: " + latestArticles.size());
 		return latestArticles;
+	}
+	
+	public List<ArticleVO> selectArticlesByKeyword(String cate, String searchOption, String search, int start){
+		List<ArticleVO> articles = new ArrayList<>();
+		try {
+			logger.info("selectArticlesByKeyword called");
+			
+			conn = getConnection();
+			if(searchOption.equals("title")) {
+				psmt = conn.prepareStatement(SQL.SELECT_ARTICLES_BY_KEYWORD);
+				psmt.setString(1, cate);
+				psmt.setString(2, "%"+search+"%");
+				psmt.setInt(3, start);
+			}else {
+				psmt = conn.prepareStatement(SQL.SELECT_ARTICLES_BY_NICK);
+				psmt.setString(1, cate);
+				psmt.setString(2, "%"+search+"%");
+				psmt.setInt(3, start);
+			}
+			
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				ArticleVO article = new ArticleVO();
+				article.setNo(rs.getInt(1));
+				article.setParent(rs.getInt(2));
+				article.setComment(rs.getInt(3));
+				article.setCate(rs.getString(4));
+				article.setTitle(rs.getString(5));
+				article.setContent(rs.getString(6));
+				article.setFile(rs.getInt(7));
+				article.setHit(rs.getInt(8));
+				article.setUid(rs.getString(9));
+				article.setRegip(rs.getString(10));
+				article.setRdate(rs.getString(11).substring(2, 10));
+				article.setNick(rs.getString(12));
+				articles.add(article);
+			}
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+		logger.debug("articles " + articles);
+		return articles;
 	}
 	
 	// update

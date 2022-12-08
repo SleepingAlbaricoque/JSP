@@ -39,9 +39,9 @@
 				data: jsonData,
 				dataType: 'json',
 				success: function(data){
-					let article = "</article>"; // 댓글 목록 동적 생성하기 위하여 태그 동적 생성
+					let article = "<article>"; // 댓글 목록 동적 생성하기 위하여 태그 동적 생성
 				    article += "<span class='nick'>"+data.nick+"</span>";
-				    article += "<span class='date'>"+data.date+"</span>";
+				    article += "<span class='date'>"+data.rdate+"</span>";
 				    article += "<p class='content'>"+data.content+"</p>";
 				    article += "<div>";
 				    article += "<a href='#' class='remove' data-no='"+data.no+"'>삭제</a>";
