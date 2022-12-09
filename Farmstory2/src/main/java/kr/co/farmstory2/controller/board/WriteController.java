@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 
@@ -35,8 +36,13 @@ public class WriteController extends HttpServlet{
 		req.setAttribute("no", no);
 		req.setAttribute("pg", pg);
 		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/board/write.jsp");
-		dispatcher.forward(req, resp);
+		HttpSession session = req.getSession();
+		if(session.getAttribute("sessUser")==null) { 
+			resp.sendRedirect("/Farmstory2/user/login.do?success=101");
+		}else {
+			RequestDispatcher dispatcher = req.getRequestDispatcher("/board/write.jsp");
+			dispatcher.forward(req, resp);
+		}
 	}
 	
 	@Override

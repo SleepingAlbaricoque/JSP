@@ -11,9 +11,15 @@
 <jsp:include page="./_${group}.jsp"/>
 	<main id="board">
     <section class="list">                
-        <form action="#">
+        <form action="/Farmstory2/board/list.do" method="get">
+        	<input type="hidden" name="group" value="${group}">
+        	<input type="hidden" name="cate" value="${cate}">
+        	<select name="searchOption">
+        		<option value="title">제목</option>
+        		<option value="nick">글쓴이</option>
+        	</select>
             <input type="text" name="search" placeholder="제목 키워드, 글쓴이 검색">
-            <input type="submit" value="검색">
+            <input type="submit" value="검색" class="btnSearch">
         </form>
         
         <table border="0">

@@ -76,7 +76,7 @@ public class SQL {
 	public static final String SELECT_ARTICLE_BY_KEYWORD = "SELECT a.`*`, b.nick FROM `board_article` AS a "
 														+ "JOIN `board_user` AS b "
 														+ "ON a.uid = b.uid "
-														+ "WHERE `parent`=? AND (`title` LIKE ? OR `uid` LIKE ?) "
+														+ "WHERE `parent`=0 AND (`title` LIKE ? OR `uid` LIKE ?) "
 														+ "order by `no` desc "
 														+ "limit ?, 10";
 	

@@ -25,6 +25,7 @@ public class GetLatestForTabController extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.setCharacterEncoding("UTF-8");
 		String cate = req.getParameter("cate");
 		
 		List<ArticleVO> articlesForTabs = service.selectLatest(cate);
