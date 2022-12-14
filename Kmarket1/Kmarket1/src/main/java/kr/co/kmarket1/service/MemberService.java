@@ -1,6 +1,8 @@
 package kr.co.kmarket1.service;
 
 import kr.co.kmarket1.dao.MemberDAO;
+import kr.co.kmarket1.dao.ProductDAO;
+import kr.co.kmarket1.vo.Cate1VO;
 import kr.co.kmarket1.vo.MemberVO;
 
 public enum MemberService{
@@ -8,6 +10,12 @@ public enum MemberService{
 	private MemberDAO dao = MemberDAO.getInstance();
 	
 	// insert
+	public void insertMember(MemberVO member) {
+		dao.insertMember(member);
+	}
+	public void insertSellerMember(MemberVO seller) {
+		dao.insertSellerMember(seller);
+	}
 	
 	// select
 	public MemberVO selectMember(String uid, String pass) {
@@ -22,6 +30,12 @@ public enum MemberService{
 	public int selectCountUid(String uid) {
 		return dao.selectCountUid(uid);
 	}
+	public int selectCountReg(String reg) {
+		return dao.selectCountReg(reg);
+	}
+	public String selectMemberByContact(String name, String contact) {
+		return dao.selectMemberByContact(name, contact);
+	}
 	
 	// update
 	public void updateMemberForSession(String uid, String sessId) {
@@ -31,4 +45,11 @@ public enum MemberService{
 		dao.updateMemberForSessionOut(uid);
 	}
 	// delete
+	
+	
+	
+	
+	
+	
+
 }

@@ -1,33 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>케이마켓::관리자</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-    <script src="https://kit.fontawesome.com/20962f3e4b.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="./css/common.css">
-    <link rel="stylesheet" href="./css/admin.css">
-    <script src="./js/gnb.js"></script>
-</head>
-<body>
-    <div id="admin-wrapper">
-        <header>
-            <div>
-                <a href="./index.jsp" class="logo">
-                    <img src="./img/admin_logo.png" alt="admin_logo">
-                </a>
-                <p>
-                    <span>홍길동님 반갑습니다. </span>
-                    <a href="/Kmarket1/admin/index.jsp">HOME |</a>
-                    <a href="/Kmarket1/index.jsp">로그아웃 |</a>
-                    <a href="/Kmarket1/cs/index.jsp">고객센터</a>
-                </p>
-            </div>
-        </header>
+<jsp:include page="./_header.jsp"/>
         <main>
             <aside>
                 <ul id="gnb">
@@ -140,7 +112,7 @@
                     </p>
                 </nav>
                 <article>
-                    <form action="#">
+                    <form action="/Kmarket1/admin/productRegister.do" method="post" enctype="multipart/form-data">
                         <section>
                             <h4>상품분류</h4>
                             <p>기본분류는 반드시 선택하셔야 합니다. 하나의 상품에 1개의 분류를 지정합니다.</p>
@@ -150,10 +122,15 @@
                                     <td>
                                         <select name="category1">
                                             <option value="cate0">1차 분류 선택</option>
-                                            <option value="cate11">패션·의류·뷰티</option>
-                                            <option value="cate12">가전·디지털</option>
+                                            <option value="cate10">브랜드패션</option>
+                                            <option value="cate11">패션의류·잡화·뷰티</option>
+                                            <option value="cate12">유아동</option>
                                             <option value="cate13">식품·생필품</option>
-                                            <option value="cate14">홈·문구·취미</option>
+                                            <option value="cate14">홈데코·문구·취미·반려</option>
+                                            <option value="cate15">컴퓨터·디지털·가전</option>
+                                            <option value="cate16">스포츠·건강·렌탈</option>
+                                            <option value="cate17">자동차·공구</option>
+                                            <option value="cate18">여행·도서·티켓·e쿠폰</option>
                                         </select>
                                     </td>
                                 </tr>
@@ -162,7 +139,12 @@
                                     <td>
                                         <select name="category2">
                                             <option value="cate0">2차 분류 선택</option>
-                                            <option value="cate21">패션·의류·뷰티</option>
+                                            <option value="cate10">브랜드 여성의류</option>
+                                            <option value="cate11">브랜드 남성의류</option>
+                                            <option value="cate12">브랜드 진/캐쥬얼</option>
+                                            <option value="cate13">브랜드 신발/가방</option>
+                                            <option value="cate14">브랜드 쥬얼리/시계</option>
+                                            <option value="cate15">브랜드 아웃도어</option>
                                             <option value="cate22">가전·디지털</option>
                                             <option value="cate23">식품·생필품</option>
                                             <option value="cate24">홈·문구·취미</option>
@@ -197,34 +179,34 @@
                                 <tr>
                                     <td>판매가격</td>
                                     <td>
-                                        <input type="text">원
+                                        <input type="text"> 원
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>할인율</td>
                                     <td>
                                         <span>0을 입력하면 할인율 없음</span>
-                                        <input type="text">%
+                                        <input type="text"> %
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>포인트</td>
                                     <td>
                                         <span>0을 입력하면 포인트 없음</span>
-                                        <input type="text">점
+                                        <input type="text"> 원
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>재고수량</td>
                                     <td>
-                                        <input type="text">개
+                                        <input type="text"> 개
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>배송비</td>
                                     <td>
                                         <span>0을 입력하면 배송비 무료</span>
-                                        <input type="text">원
+                                        <input type="text"> 원
                                     </td>
                                 </tr>
                                 <tr>
@@ -292,13 +274,4 @@
                 </p>
             </section>
         </main>
-        <footer>
-            <div>
-                <p>
-                    Copyright ©kmarket.co.kr All rights reserved. KMARKET ADMINISTRATOR Version 5.4.1.2
-                </p>
-            </div>
-        </footer>
-    </div>
-</body>
-</html>
+<jsp:include page="./_footer.jsp"/>
