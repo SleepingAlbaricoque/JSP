@@ -10,6 +10,50 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="./css/common.css">
     <link rel="stylesheet" href="./css/product.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+    	// 페이지 로딩때부터 판매가 * 1
+    $(document).ready(function(){
+    	var countnum = $('input[name = num]').val();
+    	var num = parseInt(countnum);
+    	var total = num * ${product.price * ((100 - product.discount)/100)};
+    	$('input[name=total]').attr('value',total);
+	});
+    $(function(){
+    	// 감소 버튼 클릭시----------------------------------------------------------------
+    	$('.decrease').click(function(){
+    	var countnum = $('input[name = num]').val();
+    	if(countnum > 1){
+    	countnum--;
+    	}
+    	var num = parseInt(countnum);
+    	$('input[name=num]').attr('value',num);
+    	var total = num * ${product.price * ((100 - product.discount)/100)};
+    	$('input[name=total]').attr('value',total);
+    	});
+
+    	//증가 버튼 클릭시------------------------------------------------------------------
+    	$('.increase').click(function(){
+    	var countnum = $('input[name = num]').val();
+    	countnum++;
+    	var num = parseInt(countnum);
+    	$('input[name=num]').attr('value',num);
+    	var total = num * ${product.price * ((100 - product.discount)/100)};
+    	$('input[name=total]').attr('value',total);
+    	});
+    	//장바구니 버튼 클릭시-----------------------------------------------------------------
+    	
+    	//리뷰가 있을 시 리뷰가 없다는 멘트 지우기
+    	$(function(){
+    		if('${reviews}' != null){
+    			$('.empty').hide();
+    		}
+    	});
+    	//
+    });
+    </script>
+    <style>
+    </style>
 </head>
 <body>
     <div id="wrapper">
@@ -24,7 +68,7 @@
             </div>
             <div class="logo">
                 <div>
-                    <a href="#"><img src="./img/header_logo.png" alt="Kmarket" width="180px" height="49px"></a>
+                    <a href="/Kmarket1/"><img src="./img/header_logo.png" alt="Kmarket" width="180px" height="49px"></a>
                     <form action="#">
                         <input type="text" name="keyword">
                         <button>
@@ -80,10 +124,12 @@
                     <li>
                         <a href="#"><i class="fas fa-tshirt"></i>패션·의류·뷰티</a>
                         <ol>
-                            <li><a href="#">남성의류</a></li>
-                            <li><a href="#">여성의류</a></li>
-                            <li><a href="#">잡화</a></li>
-                            <li><a href="#">뷰티</a></li>
+                            <li><a href="/Kmarket1/product/list.do?pg=1&prodCate1=10&prodCate2=10&type=1">여성의류</a></li>
+                            <li><a href="/Kmarket1/product/list.do?pg=1&prodCate1=10&prodCate2=11&type=1">남성의류</a></li>
+                            <li><a href="/Kmarket1/product/list.do?pg=1&prodCate1=10&prodCate2=12&type=1">진/캐쥬얼</a></li>
+                            <li><a href="/Kmarket1/product/list.do?pg=1&prodCate1=10&prodCate2=13&type=1">신발/가방</a></li>
+                            <li><a href="/Kmarket1/product/list.do?pg=1&prodCate1=10&prodCate2=14&type=1">주얼리/시계</a></li>
+                            <li><a href="/Kmarket1/product/list.do?pg=1&prodCate1=10&prodCate2=15&type=1">아웃도어</a></li>
                         </ol>
                     </li>
                     <li>
@@ -141,7 +187,7 @@
                                 <span>${product.discount}%</span>
                             </div>
                             <div class="discount-price">
-                                <ins>27,000</ins>
+                                <ins>${product.price * ((100 - product.discount)/100)}</ins>
                             </div>
                         </nav>
                         <nav>
@@ -172,7 +218,7 @@
                             <button class="increase"></button>
                         </div>
                         <div class="total">
-                            <span>35,000</span>
+                            <span><input type="text" name="total" value"" readonly"></span>
                             <em>총 상품금액</em>
                         </div>
                         <div class="button">
@@ -293,6 +339,15 @@
                         <h1>상품리뷰</h1>
                     </nav>
                     <ul>
+                    	<li>
+                    		<div class="empty">
+	                    		<h4>등록된 리뷰가 없습니다</h4>
+	                    		<h4>구매 후 첫 리뷰를 남겨주세요</h4>
+                    		</div>
+                    	</li>
+                    </ul>
+                    <ul>
+                    <!-- 여기 반복문 써야할듯 -->
                         <li>
                             <div>
                                 <h5 class="rating star1">상품평</h5>
