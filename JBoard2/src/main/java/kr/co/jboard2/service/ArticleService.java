@@ -49,13 +49,17 @@ public enum ArticleService {
 	}
 	
 	// update
-	public void updateArticle() {}
+	public void updateArticle(String title, String content, String no) {
+		dao.updateArticle(title, content, no);
+	}
 	public void updateArticleHit(String no) {
 		dao.updateArticleHit(no);
 	}
 	
 	// delete
-	public void deleteArticle() {}
+	public void deleteArticle(String no) {
+		dao.deleteArticle(no);
+	}
 	
 	// file
 	public MultipartRequest uploadFile(HttpServletRequest req, String path) throws IOException {
@@ -103,5 +107,14 @@ public enum ArticleService {
 		}
 		int[] result = {currentPageGroup, pageGroupStart, pageGroupEnd};
 		return result;
+	}
+	
+	
+	public void updateFile(String no, String newName, String fname) {
+		dao.updateFile(no, newName, fname);
+	}
+	
+	public void updateArticleFile(String no) {
+		dao.updateArticleFile(no);
 	}
 }

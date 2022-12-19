@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <jsp:include page="./_header.jsp"/>
 <script>
 	let success = ${success};
@@ -21,6 +22,7 @@
                             <td><input type="password" name="pass" placeholder="비밀번호 입력"/></td>
                         </tr>
                     </table>
+                    <div class="g-recaptcha" data-sitekey="6LeiwI0jAAAAACNFCNj7NwNd3xaBG9N-boLrzgn6"></div>
                     <input type="submit" value="로그인" class="btnLogin"/>
                     <label><input type="checkbox" name="auto">아이디 기억하기</label>
                 </form>

@@ -271,7 +271,22 @@ public class ArticleDAO extends DBHelper{
 	}
 	
 	//update
-	public void updateArticle() {}
+	public void updateArticle(String title, String content, String no) {
+		try {
+			logger.info("updateArticle called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.UPDATE_ARTICLE);
+			psmt.setString(1, title);
+			psmt.setString(2, content);
+			psmt.setString(3, no);
+			psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
 	
 	public void updateArticleHit(String no) {
 		try {
@@ -288,6 +303,54 @@ public class ArticleDAO extends DBHelper{
 		}
 	}
 	
+	public void updateArticleFile(String no) {
+		try {
+			logger.info("updateArticleFile called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.UPDATE_ARTICLE_FILE);
+			psmt.setString(1, no);
+			psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
 	// delete
-	public void deleteArticle() {}
+	public void deleteArticle(String no) {
+		try {
+			logger.info("deleteArticle Called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.DELETE_ARTICLE);
+			psmt.setString(1, no);
+			psmt.setString(2, no);
+			psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+	
+	// file
+	public void updateFile(String no, String newName, String fname) {
+		try {
+			logger.info("updateFile called");
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.UPDATE_FILE);
+			psmt.setString(1, newName);
+			psmt.setString(2, fname);
+			psmt.setString(3, no);
+			psmt.executeUpdate();
+			close();
+			
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+		}
+	}
+
 }

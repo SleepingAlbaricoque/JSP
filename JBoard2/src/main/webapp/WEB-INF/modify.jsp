@@ -3,17 +3,18 @@
         <main id="board">
             <section class="modify">
 
-                <form action="/JBoard/modify.do" method="post" enctype="multipart/form-data">
+                <form action="/JBoard2/modify.do" method="post" enctype="multipart/form-data">
+                	<input type="hidden" name="no" value="${no}"/>
                     <table border="0">
                         <caption>글수정</caption>
                         <tr>
                             <th>제목</th>
-                            <td><input type="text" name="title" placeholder="제목을 입력하세요."/></td>
+                            <td><input type="text" name="title" value="${article.title}"/></td>
                         </tr>
                         <tr>
                             <th>내용</th>
                             <td>
-                                <textarea name="content"></textarea>
+                                <textarea name="content">${article.content }</textarea>
                             </td>
                         </tr>
                         <tr>
