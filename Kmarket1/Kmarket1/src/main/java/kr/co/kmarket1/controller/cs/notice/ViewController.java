@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kr.co.kmarket1.service.CsService;
-import kr.co.kmarket1.vo.CsNoticeVO;
+import kr.co.kmarket1.vo.CsArticleVO;
 
 @WebServlet("/cs/notice/view.do")
 public class ViewController extends HttpServlet{
@@ -23,14 +23,13 @@ public class ViewController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		String group = req.getParameter("group");
 		String cate  = req.getParameter("cate");
 		String pg 	 = req.getParameter("pg");
 		String no 	 = req.getParameter("no");
 		
-		CsNoticeVO notice = service.selectArticleNotice(no);
+		CsArticleVO notice = service.selectArticleNotice(no);
+		service.updateNoticeHit(no);
 		
-		req.setAttribute("group", group);
 		req.setAttribute("cate", cate);
 		req.setAttribute("pg", pg);
 		req.setAttribute("no", no);

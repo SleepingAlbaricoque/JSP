@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,65 +15,7 @@
 </head>
 <body>
     <div id="wrapper">
-        <header>
-            <div class="top">
-                <div>
-		            <a href="/Kmarket1/member/login.jsp">로그인</a>
-		            <a href="/Kmarket1/member/join.jsp">회원가입</a>
-		            <a href="/Kmarket1/member/login.jsp">마이페이지</a>
-		            <a href="/Kmarket1/product/cart.jsp"><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니</a>
-                </div>
-            </div>
-            <div class="logo">
-                <div>
-                    <a href="/Kmarket1/"><img src="./img/header_logo.png" alt="Kmarket" width="180px" height="49px"></a>
-                    <form action="#">
-                        <input type="text" name="keyword">
-                        <button>
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-            <div class="menu">
-                <div>
-                    <ul>
-                        <li>
-                            <a href="#">히트상품</a>
-                        </li>
-                        <li>
-                            <a href="#">추천상품</a>
-                        </li>
-                        <li>
-                            <a href="#">최신상품</a>
-                        </li>
-                        <li>
-                            <a href="#">인기상품</a>
-                        </li>
-                        <li>
-                            <a href="#">할인상품</a>
-                        </li>
-                    </ul>
-                    <ul>
-                        <li>
-                            <a href="#">쿠폰존</a>
-                        </li>
-                        <li>
-                            <a href="#">사용후기</a>
-                        </li>
-                        <li>
-                            <a href="#">개인결제</a>
-                        </li>
-                        <li>
-                            <a href="#">고객센터</a>
-                        </li>
-                        <li>
-                            <a href="#">FAQ</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </header>
+        <jsp:include page="/product/_header.jsp" />
         <main id="product">
             <aside>
                 <ul class="category">
@@ -116,7 +60,95 @@
                         </ol>
                     </li>
                 </ul>
-            </aside>
+                <!-- 베스트상품 배너 -->
+                    <article class="best">
+                      <h1><i class="fas fa-crown"></i>베스트상품</h1>
+                      <ol>
+                      <li>
+                          <a href="#">
+                          <div class="thumb">
+                              <i>1</i><img src="./img/sample_thumb.jpg" alt="item1" />
+                          </div>
+                          <h2>상품명</h2>
+                          <div class="org_price">
+                              <del>30,000</del><span>10%</span>
+                          </div>
+                          <div class="dis_price">
+                              <ins>27,000</ins>
+                          </div>
+                          </a>
+                      </li>
+                      <li>
+                          <a href="#">
+                          <div class="thumb">
+                              <i>2</i><img src="./img/sample_thumb.jpg" alt="item1" />
+                          </div>
+                          <article>
+                              <h2>상품명</h2>
+                              <div class="org_price">
+                              <del>30,000</del>
+                              <span>10%</span>
+                              </div>
+                              <div class="dis_price">
+                              <ins>27,000</ins>
+                              </div>
+                          </article>
+                          </a>
+                      </li>
+                      <li>
+                          <a href="#">
+                          <div class="thumb">
+                              <i>3</i><img src="./img/sample_thumb.jpg" alt="item1" />
+                          </div>
+                          <article>
+                              <h2>상품명</h2>
+                              <div class="org_price">
+                              <del>30,000</del>
+                              <span>10%</span>
+                              </div>
+                              <div class="dis_price">
+                              <ins>27,000</ins>
+                              </div>
+                          </article>
+                          </a>
+                      </li>
+                      <li>
+                          <a href="#">
+                          <div class="thumb">
+                              <i>4</i><img src="./img/sample_thumb.jpg" alt="item1" />
+                          </div>
+                          <article>
+                              <h2>상품명</h2>
+                              <div class="org_price">
+                              <del>30,000</del>
+                              <span>10%</span>
+                              </div>
+                              <div class="dis_price">
+                              <ins>27,000</ins>
+                              </div>
+                          </article>
+                          </a>
+                      </li>
+                      <li>
+                          <a href="#">
+                          <div class="thumb">
+                              <i>5</i><img src="./img/sample_thumb.jpg" alt="item1" />
+                          </div>
+                          <article>
+                              <h2>상품명</h2>
+                              <div class="org_price">
+                              <del>30,000</del>
+                              <span>10%</span>
+                              </div>
+                              <div class="dis_price">
+                              <ins>27,000</ins>
+                              </div>
+                          </article>
+                          </a>
+                      </li>
+                      </ol>
+                  </article>
+             </aside>
             <section class="list">
                 <!-- 제목, 페이지 네비게이션 -->
                 <jsp:include page="./_${prodCate1}.jsp"/>
@@ -142,14 +174,14 @@
                         <c:forEach var="product" items="${products}">
                         <tr>
                             <!-- img는 예시 사이트에서 받아왔음 -->
-                            <td><a href="#" class="goods"><img src="./img/120x120.png" alt="상품이미지"></a></td>
+                            <td><a href="/Kmarket1/product/view.do?prodNo=${product.prodNo}&prodCate1=${product.prodCate1}&prodCate2=${product.prodCate2}" class="goods"><img src="./img/120x120.png" alt="상품이미지"></a></td>
                             <td>
                                 <h3 class="name">${product.prodName}</h3>
                                 <a href="/Kmarket1/product/view.do?prodNo=${product.prodNo}&prodCate1=${product.prodCate1}&prodCate2=${product.prodCate2}" class="desc">${product.descript}</a>
                             </td>
                             <td>
                                 <ul>
-                                    <li><ins class="discount-price">${product.price * ((100 - product.discount)/100)}</ins></li>
+                                    <li><ins class="discount-price"><fmt:formatNumber value="${product.price * ((100 - product.discount)/100)}" pattern="#,###"/></ins></li>
                                     <li>
                                         <!-- del태그는 텍스트 한가운데 라인을 추가하여 문서에서 삭제된 텍스트 표현-->
                                         <del class="original-price">${product.price}</del>

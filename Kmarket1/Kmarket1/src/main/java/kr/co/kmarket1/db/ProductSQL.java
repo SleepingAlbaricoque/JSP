@@ -31,16 +31,41 @@ public class ProductSQL {
 	public static final String SELECT_COUNT_TOTAL = "SELECT COUNT(`prodNo`) FROM `km_product` "
 													+ "where `prodCate1`=? AND `prodCate2`=?";
 	
-	public static final String INSERT_PRODUCT_CART = "INSERT INTO `km_product_cart` set "
-													+ "`uid`=?, `prodNo`=?, `count`=?, `price`=?, `discount`=?, `point`=?, `delivery`=?, `total`=?, `rdate`=? )";
+	public static final String INSERT_PRODUCT_CART = "INSERT INTO `km_product_cart` SET "
+													+ "`uid`=?, `prodNo`=?, `count`=?, `price`=?, `discount`=?, `point`=?, `delivery`=?, `total`=?, `rdate`=?";
+	// cart에 중복된 상품이 있는지 확인
+	public static final String SELECT_COUNT_PRODUCT = "SELECT COUNT(`cartNo`) FROM `km_product_cart` where `prodNo`=?";
+	public static final String UPDATE_PRODUCT_CART = "UPDATE `km_product_cart` SET `count`=COUNT+? where `prodNo`=?";
 	
-	public static final String SELECT_COMMENTS = "SELECT * FROM `km_product_review` "
-												+ "WHERE `prodNo`=? "
-												+ "ORDER BY `rdate` DESC LIMIT ?, 5";
+	public static final String SELECT_REVIEWS = "SELECT a.*, b.`prodName` FROM `km_product_review` AS a "
+												+"JOIN `km_product` as b ON a.prodNo = b.prodNo "
+												+"where a.`prodNo`=? "
+												+"ORDER BY `rdate` desc LIMIT ?, 5";
 	// 리뷰 총갯수
 	public static final String SELECT_REVIEW_COUNT_TOTAL = "SELECT COUNT(`revNo`) FROM `km_product_review` "
 												+ "where `prodNo`=?";
+	
+	// view에서 장바구니 불러오기
+	public static final String SELECT_PRODUCT_CARTS = "SELECT a.*, b.`prodName`,`descript`,`thumb1` FROM `km_product_cart` AS a "
+														+ "JOIN `km_product` AS b ON a.prodNo = b.prodNo WHERE `uid`=?";
 
-
+	// 장바구니 선택 삭제
+	public static final String DELETE_PRODUCT_CART = "DELETE FROM `km_product_cart` WHERE `cartNo` = ? ";
+	
+	
+	public static final String SELECT_PRODUCT_ORDERS = "SELECT a.*, b.prodName, b.descript, b.thumb3 FROM `km_product_cart` AS a "
+															+ "JOIN `km_product` AS b ON a.prodNo = b.prodNo WHERE cartNo = ? ";
+	// complete
+	public static final String SELECT_ORDER_BY_ORDNO = "select a.*, b.name, b.hp from `km_product_order` as a "
+													+ "join `km_member` as b "
+													+ "on a.ordUid = b.uid "
+													+ "where `ordNo`=?";
+	public static final String SELECT_ITEMS_BY_ORDNO = "select a.thumb1, a.prodCate1, a.prodCate2, a.prodName, a.descript, b.* from `km_product` as a "
+													+ "join `km_product_order_item` as b "
+													+ "on a.prodNo = b.prodNo "
+													+ "where b.ordNo = ?";
+	public static final String INSERT_COMPLETE_ORDER = "INSERT INTO `km_product_order` SET "
+													+ "`ordUid`=?, `ordCount`=?, `ordPrice`=?, `ordDiscount`=?, `ordDelivery`=?, `savePoint`=?, `usedPoint`=?, `ordTotPrice`=?, "
+													+ "`recipName`=?, `recipHp`=?, `recipZip`=?, `recipAddr1`=?, `recipAddr2`=?, `ordPayment`=?, `ordComplete`=?, `ordDate`=NOW() ";
 }
 

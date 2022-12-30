@@ -1,6 +1,7 @@
 package kr.co.kmarket1.controller.product;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -15,9 +16,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import kr.co.kmarket1.service.ProductService;
-import kr.co.kmarket1.vo.ProductVO;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+import com.mysql.cj.xdevapi.JsonString;
 
+import kr.co.kmarket1.dao.ProductDAO;
+import kr.co.kmarket1.service.ProductService;
+import kr.co.kmarket1.vo.ProductCartVO;
+import kr.co.kmarket1.vo.ProductOrderItemVO;
+import kr.co.kmarket1.vo.ProductOrderVO;
+import kr.co.kmarket1.vo.ProductReviewVO;
+import kr.co.kmarket1.vo.ProductVO;
 @WebServlet("/product/view.do")
 public class ViewController extends HttpServlet{
 	private ProductService service = ProductService.INSTANCE;
@@ -34,6 +44,7 @@ public class ViewController extends HttpServlet{
 		String prodCate2 = req.getParameter("prodCate2");
 		String prodNo = req.getParameter("prodNo");
 		String pg = req.getParameter("pg");
+		
 		
 		req.setAttribute("prodCate1", prodCate1);
 		req.setAttribute("prodCate2", prodCate2);
@@ -81,7 +92,6 @@ public class ViewController extends HttpServlet{
         req.setAttribute("koreanDOW", koreanDOW);
 
         // 리뷰 들고오기
-        String pgr = req.getParameter("pgr");
         int currentPage = 1;
 		int start;
 		int total = 0;
@@ -91,19 +101,19 @@ public class ViewController extends HttpServlet{
 		int pageGroupEnd;
 		int pageStartNum;
         
-		if(pgr != null) {
-			currentPage = Integer.parseInt(pgr);
+		if(pg != null) {
+			currentPage = Integer.parseInt(pg);
 		}
-		start = (currentPage - 1)*10;
+		start = (currentPage - 1)*5;
 		
 		// 전체 게시물 갯수
 		total = service.selectReviewCountTotal(prodNo);
 		
 		// 마지막 페이지 번호
-		lastPageNum = service.getLastPageNum(total);
+		lastPageNum = service.getReviewLastPageNum(total);
 		
 		// 페이지 그룹 스타트, 엔드
-		int[] result = service.getPageGroupNum(currentPage, lastPageNum);
+		int[] result = service.getReviewPageGroupNum(currentPage, lastPageNum);
 		currentPageGroup = result[0];
 		pageGroupStart = result[1];
 		pageGroupEnd = result[2];
@@ -119,19 +129,56 @@ public class ViewController extends HttpServlet{
 		req.setAttribute("pageGroupEnd", pageGroupEnd);
 		req.setAttribute("pageStartNum", pageStartNum);
 		
-		req.setAttribute("pgr", pgr);
+		req.setAttribute("pg", pg);
         
-		List<ProductVO> comments = null;
-		comments = service.selectProductComments(prodNo);
-        req.setAttribute("connents", comments);
+		List<ProductReviewVO> reviews = null;
+		reviews = service.selectProductReviews(prodNo, start);
+        req.setAttribute("reviews", reviews);
 
-		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/product/view.jsp");
 		dispatcher.forward(req, resp);
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		/* ProductVO cart = service.insertProductCart(); */
+		
+		String uid = req.getParameter("uid");
+		String prodNo = req.getParameter("prodNo");
+		String count = req.getParameter("count");
+		String price = req.getParameter("price");
+		String discount = req.getParameter("discount");
+		String point = req.getParameter("point");
+		String delivery = req.getParameter("delivery");
+		String total = req.getParameter("total");
+		String rdate = req.getParameter("rdate");
+		/*String direct = req.getParameter("direct");*/
+		
+		ProductCartVO cart = new ProductCartVO();
+		
+		cart.setUid(uid);
+		cart.setProdNo(prodNo);
+		cart.setCount(count);
+		cart.setPrice(price);
+		cart.setDiscount(discount);
+		cart.setPoint(point);
+		cart.setDelivery(delivery);
+		cart.setTotal(total);
+		cart.setRdate(rdate);
+		/*cart.setDirect(direct);*/
+		
+		JsonObject json = new JsonObject();
+		PrintWriter writer = resp.getWriter();
+		int check = ProductDAO.getInstance().selectCountProduct(prodNo);
+			if(check == 0) {
+			int result = ProductDAO.getInstance().insertProductCart(cart);
+			json.addProperty("result", result);
+
+			}else {
+				int result = ProductDAO.getInstance().updateProductCart(cart);
+				json.addProperty("result", result);
+
+			}
+			writer.print(json.toString());
+		/*----------------------------------------------------*/
 		
 	}
 }

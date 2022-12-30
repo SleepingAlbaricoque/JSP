@@ -32,19 +32,14 @@ public class ProductVO {
 	// cart때문에 추가함
 	private int count;
 	private int total;
-	
-	// review때문에 추가함
+	private int cartNo;
 	private String uid;
-	private int rating;
-	private String regip;
-	private String content;
 	
-	
-	public String getContent() {
-		return content;
+	public int getCartNo() {
+		return cartNo;
 	}
-	public void setContent(String content) {
-		this.content = content;
+	public void setCartNo(int cartNo) {
+		this.cartNo = cartNo;
 	}
 	public String getUid() {
 		return uid;
@@ -52,23 +47,14 @@ public class ProductVO {
 	public void setUid(String uid) {
 		this.uid = uid;
 	}
-	public int getRating() {
-		return rating;
-	}
-	public void setRating(int rating) {
-		this.rating = rating;
-	}
-	public String getRegip() {
-		return regip;
-	}
-	public void setRegip(String regip) {
-		this.regip = regip;
-	}
 	public int getProdNo() {
 		return prodNo;
 	}
 	public void setProdNo(int prodNo) {
 		this.prodNo = prodNo;
+	}
+	public void setProdNo(String prodNo) {
+		this.prodNo = Integer.parseInt(prodNo);
 	}
 	public int getProdCate1() {
 		return prodCate1;
@@ -252,6 +238,9 @@ public class ProductVO {
 	}
 	public void setCount(int count) {
 		this.count = count;
+	}
+	public void setCount(String count) {
+		this.count = Integer.parseInt(count);
 	}
 	public int getTotal() {
 		return total;

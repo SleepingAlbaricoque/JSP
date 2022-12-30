@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kr.co.kmarket1.service.CsService;
-import kr.co.kmarket1.vo.CsNoticeVO;
-import kr.co.kmarket1.vo.CsQnaVO;
+import kr.co.kmarket1.vo.CsArticleVO;
+
 
 @WebServlet("/cs/index.do")
 public class IndexController extends HttpServlet{
@@ -26,12 +26,12 @@ public class IndexController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		String pg = req.getParameter("pg");
-
-		List<CsNoticeVO> notices = service.selectNotices();
-		List<CsQnaVO> qnas = service.selectQnas();
+		List<CsArticleVO> notices = service.selectNotices();
+		List<CsArticleVO> faqs = service.selectFaq();
+		List<CsArticleVO> qnas = service.selectQnas();
 		
 		req.setAttribute("notices", notices);
+		req.setAttribute("faqs", faqs);
 		req.setAttribute("qnas", qnas);
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/cs/index.jsp");
