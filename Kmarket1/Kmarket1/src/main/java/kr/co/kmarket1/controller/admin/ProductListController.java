@@ -30,7 +30,7 @@ public class ProductListController extends HttpServlet {
 		int currentPage = service.getCurrentPage(pg);
 		
 		int total = 0;
-		total = service.selectListCountTotal();
+		//total = service.selectListCountTotal();
 		
 		int lastPageNum = service.getLastPageNum(total);
 		int[] result = service.getPageGroupNum(currentPage, lastPageNum);

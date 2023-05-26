@@ -125,7 +125,7 @@ public class AdminDAO extends DBHelper{
 			logger.info("selectListCountTotal...");
 			conn = getConnection();
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery(AdminSQL.SELECT_LIST_COUNT_TOTAL);
+			//rs = stmt.executeQuery(AdminSQL.SELECT_LIST_COUNT_TOTAL);
 			
 			if(rs.next()) {
 				result = rs.getInt(1);
@@ -144,7 +144,7 @@ public class AdminDAO extends DBHelper{
 			logger.info("insertProduct...");
 			
 			conn = getConnection();
-			psmt = conn.prepareStatement(AdminSQL.INSERT_PRODUCT);
+			//psmt = conn.prepareStatement(AdminSQL.INSERT_PRODUCT);
 			psmt.setInt(1, vo.getProdCate1());
 			psmt.setInt(2, vo.getProdCate2());
 			psmt.setString(3, vo.getProdName());
